@@ -18,6 +18,6 @@ from project.models import User, Post
 
 user = User.query.filter_by(email='jrowlandlmp@gmail.com').first()
 
-user.photo = 'jordan_av.jpeg'
+# user.photo = 'jordan_av.jpeg'
 
-db.session.commit()
+# db.session.commit()

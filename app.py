@@ -101,15 +101,13 @@ def logout():
 def changepassword():
     form = ChangePasswordForm()
     if form.validate_on_submit():
-        return current_user.check_password(form.new_password.data)
-        # if not current_user.check_password(form.old_password.data):
-        #     flash('Could not verify password', 'card-panel red lighten-2')
-        #     return redirect(url_for('account'))
-        # current_user.password_hash = generate_password_hash(form.new_password.data)
-        # db.session.commit()
-        # flash('Password changed!', 'card-panel green lighten-2')
-        # return redirect(url_for('account'))
-
+        if not current_user.check_password(form.old_password.data):
+            flash('Could not verify password', 'card-panel col l8 red lighten-2')
+            return redirect(url_for('account'))
+        current_user.password_hash = generate_password_hash(form.new_password.data)
+        db.session.commit()
+        flash('Password changed!', 'card-panel green lighten-2 col l8')
+        return redirect(url_for('account'))
     return render_template(
         'changepass.html',
         form=form)
