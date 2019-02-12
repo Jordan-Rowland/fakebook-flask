@@ -70,11 +70,6 @@ class ChangePasswordForm(FlaskForm):
         'Confirm your new Password',
         validators=[
             DataRequired(),
-            EqualTo('password', message='Passwords must match'),])
+            EqualTo('new_password', message='Passwords must match'),])
     submit = SubmitField('Change Password')
 
-
-    def validate_password(self, field):
-        user = User.query.filter_by(id=current_user.id).first()
-        if not user.check_password(self.password.data):
-            ValidationError('Could not verify password.')

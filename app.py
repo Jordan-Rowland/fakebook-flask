@@ -3,6 +3,7 @@ from project.forms import PostForm, LoginForm, RegisterForm, ChangePasswordForm
 from flask import flash, render_template, redirect, request, session, url_for
 from flask_login import login_required, login_user, logout_user, current_user
 from project.models import User, Post
+from werkzeug.security import generate_password_hash
 
 
 @app.route('/', methods=['GET','POST'])
@@ -100,13 +101,14 @@ def logout():
 def changepassword():
     form = ChangePasswordForm()
     if form.validate_on_submit():
-        if not current_user.check_password(form.old_password.data):
-            flash('Could not verify password', 'card-panel red lighten-2')
-            return redirect(url_for('account'))
-        current_user.password = form.new_password.data
-        db.session.commit()
-        flash('Password changed!', 'card-panel green lighten-2')
-        return redirect(url_for('account'))
+        return current_user.check_password(form.new_password.data)
+        # if not current_user.check_password(form.old_password.data):
+        #     flash('Could not verify password', 'card-panel red lighten-2')
+        #     return redirect(url_for('account'))
+        # current_user.password_hash = generate_password_hash(form.new_password.data)
+        # db.session.commit()
+        # flash('Password changed!', 'card-panel green lighten-2')
+        # return redirect(url_for('account'))
 
     return render_template(
         'changepass.html',
