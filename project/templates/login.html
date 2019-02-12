@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="col l8">
+<div class="card-panel light-blue lighten-4">
+<section class="section">
+    <div class="row">
+        <div class="container">
+            <div class="card-panel grey lighten-4">
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.email.label(class="black-text") }}{{ form.email }}
+        {{ form.password.label(class="black-text") }}{{ form.password }}
+        {{ form.submit(class="btn blue") }}{{ form.remember(class="browser-default") }}
+        </form>
+        </div>
+        <a href="{{ url_for('register') }}">Click here</a> to register <br>
+        <a href="{{ url_for('reset') }}">Reset Password</a></div>
+    </div>
+</section>
+</div>
+</div>
+
+{% endblock %}

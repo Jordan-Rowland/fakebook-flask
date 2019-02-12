@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col l8">
+<div class="card-panel light-blue lighten-4">
+  <section class="section">
+    <section class="section">
+      <form method="post">
+          {{ form.hidden_tag() }}
+          {{ form.post_content.label() }}{{ form.post_content }}
+          {{ form.submit(class="btn blue right") }}
+    </section>
+        </form>
+      </section>
+        <section class="section">
+      {% for post in posts|reverse %}
+        <div class="card-panel grey lighten-4 hoverable">
+ <span class="post-profile">
+          <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + post.user.photo) }}">
+          <span class="post-username">{{ post.user.username }}</span>
+        </span>
+          <br>
+          <div class="divider"></div>
+          <p class="center">{{ post.content }}</p>
+        </div>
+      {% endfor %}
+</section>
+<div class="card-panel grey lighten-2">
+<p><a href="{{ url_for('changepassword') }}">Change your password</a></p>
+<p>Update your email address</p>
+<p>Change your profile photo</p>
+</div>
+</div>
+</div>
+{% endblock %}

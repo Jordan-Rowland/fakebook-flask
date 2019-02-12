@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="col l8">
+<div class="card-panel light-blue lighten-4">
+  <section class="section">
+    {% if current_user.is_authenticated %}
+<section class="section">
+  <form method="post">
+          {{ form.hidden_tag() }}
+          {{ form.post_content.label() }}{{ form.post_content }}
+          {{ form.submit(class="btn blue right") }}
+  </form>
+</section>
+  </section>
+  <section class="section">
+    {% endif %}
+      {% for post in posts|reverse %}
+        <div class="card-panel grey lighten-4 hoverable">
+          <span class="post-profile">
+          <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + post.user.photo) }}">
+          <span class="post-username">{{ post.user.username }}</span>
+        </span>
+          <br>
+          <div class="divider"></div>
+          <p class="center">{{ post.content }}</p>
+        </div>
+      {% endfor %}
+</section>
+</div>
+</div>
+
+{% endblock %}

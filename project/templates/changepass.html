@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col l8">
+<div class="card-panel light-blue lighten-4">
+<section class="section">
+<section class="section">
+    <form action="POST">
+      {{ form.hidden_tag() }}
+      {{ form.old_password.label(class="black-text") }}{{ form.old_password }}
+      {{ form.new_password.label(class="black-text") }}{{ form.new_password }}
+      {{ form.confirm_new_password.label(class="black-text") }}{{ form.confirm_new_password }}
+      {{ form.submit(class="btn blue right") }}
+    </form>
+</section>
+</section>
+</div>
+</div>
+{% endblock %}
