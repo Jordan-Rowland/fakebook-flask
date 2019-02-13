@@ -27,21 +27,16 @@
 </section>
 <div class="card-panel grey lighten-2">
 <p><a href="{{ url_for('changepassword') }}">Change your password</a></p>
-<p><a href="">Update your email address</a></p>
+<p><a href="{{ url_for('changeemail') }}">Update your email address</a></p>
 <form method="POST" enctype="multipart/form-data">
   {{ photo_form.hidden_tag() }}
-  <p>
-  {{ photo_form.image_file.label(class="black-text") }} {{ photo_form.image_file}} 
-
-  </p>
+  <p>{{ photo_form.image_file.label(class="black-text") }} {{ photo_form.image_file}} </p>
   {% if photo_form.image_file.errors %}
   {% for error in photo_form.image_file.errors %}
     <span class="red-text">{{ error }}.</span>
   {% endfor %}
   {% endif %}
-  <p>
-  {{ photo_form.submit_photo(class="btn blue") }}
-  </p>  
+  <p>{{ photo_form.submit_photo(class="btn blue") }}</p>  
 
 </form>
 </div>

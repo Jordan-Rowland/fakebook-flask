@@ -2,7 +2,7 @@ import os
 import secrets
 from PIL import Image
 from project import app, db
-from project.forms import PostForm, LoginForm, RegisterForm, ChangePasswordForm, ChangePhotoForm
+from project.forms import PostForm, LoginForm, RegisterForm, ChangePasswordForm, ChangePhotoForm, ChangeEmailForm
 from flask import flash, render_template, redirect, request, session, url_for
 from flask_login import login_required, login_user, logout_user, current_user
 from project.models import User, Post
@@ -87,7 +87,7 @@ def login():
             if next is None:
                 return redirect(url_for('timeline'))
             return redirect(url_for(next))
-        flash('Invalid password or username', 'card-panel red lighten-2')
+        flash('Invalid email or password', 'card-panel red lighten-2')
     return render_template(
         'login.html',
         form=form,)
@@ -124,14 +124,32 @@ def changepassword():
     form = ChangePasswordForm()
     if form.validate_on_submit():
         if not current_user.check_password(form.old_password.data):
-            flash('Could not verify password', 'card-panel col red lighten-2')
+            flash('Could not verify password', 'card-panel red lighten-2')
             return redirect(url_for('account'))
         current_user.password_hash = generate_password_hash(form.new_password.data)
         db.session.commit()
-        flash('Password changed!', 'card-panel green lighten-2 col')
+        flash('Password changed!', 'card-panel green lighten-2')
         return redirect(url_for('account'))
     return render_template(
         'changepass.html',
+        form=form)
+
+
+@app.route('/changeemail', methods=['GET','POST'])
+@login_required
+def changeemail():
+    form = ChangeEmailForm()
+    if form.validate_on_submit():
+        existing_email = User.query.filter_by(email=form.email.data).first()
+        if existing_email:
+            flash('Email is already in use', 'card-panel red lighten-2')
+            return redirect(url_for('changeemail'))
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Email updated!', 'card-panel green lighten-2')
+        return redirect(url_for('account'))
+    return render_template(
+        'changeemail.html',
         form=form)
 
 

@@ -42,12 +42,12 @@ class RegisterForm(FlaskForm):
 
 
     def validate_email(self, field):
-        if User.query.filter_by(email=field.data):
-            ValidationError('Email already registered.')
+        if User.query.filter_by(email=field.data).first():
+            ValidationError('This Email is already registered.')
 
 
     def validate_username(self, field):
-        if User.query.filter_by(username=field.data):
+        if User.query.filter_by(username=field.data).first():
             ValidationError('Username already in use.')
 
 
@@ -86,3 +86,14 @@ class ChangePhotoForm(FlaskForm):
     image_file = FileField('Change your profile photo', 
         validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
     submit_photo = SubmitField('Upload Photo')
+
+
+class ChangeEmailForm(FlaskForm):
+    email = StringField('Enter your new email address', 
+        validators=[DataRequired(), Email()])
+    submit = SubmitField('Update Email')
+
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first():
+            ValidationError('This Email is already registered.')
