@@ -61,6 +61,12 @@
 <section class="section">
 <div class="container">
 <div class="row">
+{% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="{{ category }}">
+  {{ message }}
+  </div>
+{% endfor %}
+
 {% if current_user.is_authenticated %}
   <div class="col l4 center">
     <div class="card-panel grey lighten-4">
@@ -76,11 +82,7 @@
     </div>
 {% endif %}
   </div>
-{% for category, message in get_flashed_messages(with_categories=True) %}
-  <div class="{{ category }}">
-  {{ message }}
-  </div>
-{% endfor %}
+
 
 {% block content %}
 {% endblock %}

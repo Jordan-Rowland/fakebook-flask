@@ -1,12 +1,14 @@
 from flask_wtf import FlaskForm
+from flask_login import current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError
+from flask_wtf.file import FileField, FileAllowed
 from project.models import User
 
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp
 
 
 class PostForm(FlaskForm):
-    post_content = StringField('Whats on your mind?')
+    post_content = StringField('Whats on your mind?', validators=[DataRequired()])
     submit = SubmitField('Post')
 
 
@@ -78,3 +80,9 @@ class ChangePasswordForm(FlaskForm):
         user = User.query.filter_by(id=current_user.id).first()
         if not user.check_password(self.password.data):
             ValidationError('Could not verify password.')
+
+
+class ChangePhotoForm(FlaskForm):
+    image_file = FileField('Change your profile photo', 
+        validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
+    submit_photo = SubmitField('Upload Photo')

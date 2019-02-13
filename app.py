@@ -1,5 +1,8 @@
+import os
+import secrets
+from PIL import Image
 from project import app, db
-from project.forms import PostForm, LoginForm, RegisterForm, ChangePasswordForm
+from project.forms import PostForm, LoginForm, RegisterForm, ChangePasswordForm, ChangePhotoForm
 from flask import flash, render_template, redirect, request, session, url_for
 from flask_login import login_required, login_user, logout_user, current_user
 from project.models import User, Post
@@ -11,7 +14,6 @@ def timeline():
     form = PostForm()
     posts = Post.query.all()
     if form.validate_on_submit():
-        user_id=current_user.id
         post = Post(form.post_content.data, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
@@ -26,11 +28,31 @@ def timeline():
 @login_required
 def account():
     form = PostForm()
+    photo_form = ChangePhotoForm()
     user_id=current_user.id
     posts = Post.query.filter_by(user_id=user_id).all()
+    if form.validate_on_submit() and form.post_content.data:
+        post = Post(form.post_content.data, user_id=current_user.id)
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('account'))
+    elif photo_form.validate_on_submit() and photo_form.image_file.data:
+        random_hex = secrets.token_hex(8)
+        _, f_ext = os.path.splitext(photo_form.image_file.data.filename)
+        photo_file = random_hex + f_ext
+        picture_path = os.path.join(app.root_path, 'static/img', photo_file)
+        output_size = (200, 200)
+        i = Image.open(photo_form.image_file.data)
+        i.thumbnail(output_size)
+        i.save(picture_path)
+        current_user.photo = photo_file
+        db.session.commit()
+        flash('New photo saved!', 'card-panel green lighten-2 s12')
+        return redirect(url_for('account'))
     return render_template(
         'account.html',
         form=form,
+        photo_form=photo_form,
         posts=posts,)
 
 
@@ -102,11 +124,11 @@ def changepassword():
     form = ChangePasswordForm()
     if form.validate_on_submit():
         if not current_user.check_password(form.old_password.data):
-            flash('Could not verify password', 'card-panel col l8 red lighten-2')
+            flash('Could not verify password', 'card-panel col red lighten-2')
             return redirect(url_for('account'))
         current_user.password_hash = generate_password_hash(form.new_password.data)
         db.session.commit()
-        flash('Password changed!', 'card-panel green lighten-2 col l8')
+        flash('Password changed!', 'card-panel green lighten-2 col')
         return redirect(url_for('account'))
     return render_template(
         'changepass.html',

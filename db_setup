@@ -21,3 +21,7 @@ user = User.query.filter_by(email='jrowlandlmp@gmail.com').first()
 # user.photo = 'jordan_av.jpeg'
 
 # db.session.commit()
+post = Post.query.all()[-1]
+
+db.session.delete(post)
+db.session.commit()
