@@ -4,8 +4,23 @@
 <div class="col l8">
 <div class="card-panel light-blue lighten-4">
 <section class="section">
-  <p>{{ user.username }}</p>
-  <p>{{ user.location }}</p>
+  <div class="card-panel grey lighten-4">
+    <div class="row">
+  <img class="circle col l4" width="200px" src="{{ url_for('static', filename='img/' + user.photo) }}" alt="">
+  <div class="col l4">
+  <p>
+  {{ user.username }}  
+  </p>
+  <p>
+  {{ user.location }}  
+  </p>
+  <div class="col l4">
+    <!-- {{ user.about_me }} -->
+  </div>
+  </div>
+  
+  </div>
+    </div>
   {% if posts %}
   {% for post in posts|reverse %}
         <div class="card-panel grey lighten-4 hoverable">

@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128), nullable=False)
     photo = db.Column(db.String(), default='nouser.png')
     posts = db.relationship('Post', backref='user', lazy=True)
+    # about_me = db.Column(db.Text(500))
 
 
     def __init__(self, email, username, location, password):

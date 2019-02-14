@@ -1,6 +1,6 @@
 import os
 import secrets
-from PIL import Image
+from PIL import Image, ImageOps
 from project import app, db
 from project.forms import PostForm, LoginForm, RegisterForm, ChangePasswordForm, ChangePhotoForm, ChangeEmailForm
 from flask import flash, render_template, redirect, request, session, url_for
@@ -43,8 +43,8 @@ def account():
         picture_path = os.path.join(app.root_path, 'static/img', photo_file)
         output_size = (200, 200)
         i = Image.open(photo_form.image_file.data)
-        i.thumbnail(output_size)
-        i.save(picture_path)
+        sq_img = ImageOps.fit(i, output_size, Image.ANTIALIAS)
+        sq_img.save(picture_path)
         current_user.photo = photo_file
         db.session.commit()
         flash('New photo saved!', 'card-panel green lighten-2 s12')
@@ -57,6 +57,7 @@ def account():
 
 
 @app.route('/users')
+@login_required
 def users():
     users = User.query.all()
     return render_template(
@@ -65,8 +66,9 @@ def users():
 
 
 @app.route('/profile/<user>')
+@login_required
 def profile(user):
-    user = User.query.filter_by(username=user).first()
+    user = User.query.filter_by(username=user).first_or_404()
     posts = Post.query.filter_by(user_id=user.id).all()
     return render_template(
         'profile.html',
