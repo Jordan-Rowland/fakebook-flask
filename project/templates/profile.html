@@ -4,7 +4,7 @@
 <div class="col l8">
 <div class="card-panel light-blue lighten-4">
 <section class="section">
-  <div class="card-panel grey lighten-4">
+  <div class="card-panel grey lighten-2">
     <div class="row">
   <img class="circle col l4" width="200px" src="{{ url_for('static', filename='img/' + user.photo) }}" alt="">
   <div class="col l4">
@@ -31,6 +31,8 @@
           <br>
           <div class="divider"></div>
           <p class="center">{{ post.content }}</p>
+          <p class="right-align">{{ moment(post.timestamp, local=True).format('LLL') }}({{ moment(post.timestamp, local=True).fromNow(refresh=True) }})</p>
+
         </div>
       {% endfor %}
       {% else %}

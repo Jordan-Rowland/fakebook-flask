@@ -22,6 +22,8 @@
           <br>
           <div class="divider"></div>
           <p class="center">{{ post.content }}</p>
+        <p class="right-align">{{ moment(post.timestamp, local=True).format('LLL') }}({{ moment(post.timestamp, local=True).fromNow(refresh=True) }})</p>
+
         </div>
       {% endfor %}
 </section>
