@@ -9,6 +9,8 @@ from project.models import User, Post
 from werkzeug.security import generate_password_hash
 
 
+#git pull update
+
 @app.route('/', methods=['GET','POST'])
 def timeline():
     form = PostForm()
