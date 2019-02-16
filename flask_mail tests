@@ -1,0 +1,6 @@
+from flask_mail import Message
+from project import mail
+msg = Message('testtttFlask', sender='bionicPythonic@gmail.com', recipients=['bionicpythonic@gmail.com'])
+msg.body = 'flask mail test'
+with app.app_context():
+    mail.send(msg)
