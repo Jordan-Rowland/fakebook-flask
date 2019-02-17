@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="col l8">
+<div class="card-panel light-blue lighten-4">
+    <div class="row">
+        <div class="container">
+            <div class="card-panel grey lighten-4">
+<section class="section">
+    <form action="" method="post">
+    {{ form.hidden_tag() }}
+    {{ form.email.label(class="black-text") }}{{ form.email }}
+    <div class="right-align">
+    {{ form.submit(class="btn blue") }}
+    </div>
+    </form>
+</section>
+    </div>
+    </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

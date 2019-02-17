@@ -10,7 +10,10 @@
   <form method="post">
           {{ form.hidden_tag() }}
           {{ form.post_content.label() }}{{ form.post_content }}
-          {{ form.submit(class="btn blue right") }}
+                    <div class="right-align">
+
+          {{ form.submit(class="btn blue") }}
+          </div>
   </form>
 </section>
   </section>
@@ -26,7 +29,7 @@
           <div class="">
           <div class="divider"></div>
           <p class="center">{{ post.content }}</p>
-<p class="right-align">{{ moment(post.timestamp, local=True).format('LLL') }}({{ moment(post.timestamp, local=True).fromNow(refresh=True) }})</p>
+<p class="right-align">{{ moment(post.timestamp).format('LLLL') }}({{ moment(post.timestamp).fromNow() }})</p>
 
           </div>
         </div>

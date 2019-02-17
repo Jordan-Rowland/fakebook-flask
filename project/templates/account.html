@@ -8,7 +8,10 @@
       <form method="post">
           {{ form.hidden_tag() }}
           {{ form.post_content.label() }}{{ form.post_content }}
-          {{ form.submit(class="btn blue right") }}
+          <div class="right-align">
+
+          {{ form.submit(class="btn blue") }}
+          </div>
     </section>
         </form>
       </section>
@@ -38,7 +41,7 @@
     <span class="red-text">{{ error }}.</span>
   {% endfor %}
   {% endif %}
-  <p>{{ photo_form.submit_photo(class="btn blue") }}</p>  
+  <p>{{ photo_form.submit_photo(class="btn blue") }}</p>
 
 </form>
 </div>

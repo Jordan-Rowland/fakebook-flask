@@ -60,7 +60,7 @@ class LoginForm(FlaskForm):
 
 class ChangePasswordForm(FlaskForm):
     old_password = PasswordField(
-        'Verify your old password', 
+        'Verify your old password',
         validators=[
             DataRequired(),])
     new_password = PasswordField(
@@ -83,13 +83,13 @@ class ChangePasswordForm(FlaskForm):
 
 
 class ChangePhotoForm(FlaskForm):
-    image_file = FileField('Change your profile photo', 
+    image_file = FileField('Change your profile photo',
         validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
     submit_photo = SubmitField('Upload Photo')
 
 
 class ChangeEmailForm(FlaskForm):
-    email = StringField('Enter your new email address', 
+    email = StringField('Enter your new email address',
         validators=[DataRequired(), Email()])
     submit = SubmitField('Update Email')
 
@@ -97,3 +97,22 @@ class ChangeEmailForm(FlaskForm):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             ValidationError('This Email is already registered.')
+
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Enter the email you use to login to reset your password',
+        validators=[DataRequired(), Email()])
+    submit = SubmitField('Request password reset')
+
+
+class ResetPasswordForm(FlaskForm):
+    new_password = PasswordField('Enter the email you use to login to reset your password',
+        validators=[
+            Length(8,150),
+            DataRequired(),])
+    password_confirm = PasswordField(
+        'Confirm your Password',
+        validators=[
+            DataRequired(),
+            EqualTo('password', message='Passwords must match'),])
+    submit = SubmitField('Update Email')

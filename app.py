@@ -1,8 +1,8 @@
 import os
 import secrets
 from PIL import Image, ImageOps
-from project import app, db
-from project.forms import PostForm, LoginForm, RegisterForm, ChangePasswordForm, ChangePhotoForm, ChangeEmailForm
+from project import app, db, send_email
+from project.forms import PostForm, LoginForm, RegisterForm, ChangePasswordForm, ChangePhotoForm, ChangeEmailForm, RequestResetForm, ResetPasswordForm, ResetPasswordForm
 from flask import flash, render_template, redirect, request, session, url_for
 from flask_login import login_required, login_user, logout_user, current_user
 from project.models import User, Post
@@ -155,10 +155,36 @@ def changeemail():
         form=form)
 
 
-@app.route('/reset', methods=['GET','POST'])
-def reset():
-    return 'RESET'
+@app.route('/resetrequest', methods=['GET','POST'])
+def resetrequest():
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data.lower()).first()
+        if user:
+            # Need to create this page for password resets
+            send_email(user.email, 'tester', 'resetemailrequest', )
+            flash('Email sent! Please follow the link provided '
+            'in the email to reset your password', 'card-panel green lighten-2')
+            return redirect(url_for('login'))
+        else:
+            flash('Email not found. Please try another email, or register an account.', 'card-panel red lighten-2')
+            form.email.data = ''
+    return render_template(
+        'resetrequest.html',
+        form=form
+        )
+
+
+@app.route('/resetpass', methods=['GET','POST'])
+def resetpass():
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        pass
+    return render_template(
+        'resetpassword.html',
+        form=form)
+    # send_email('JrowlandLMP@gmail.com', 'tester')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
