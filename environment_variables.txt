@@ -1,0 +1,17 @@
+export SECRET_KEY='mysecretkey'
+export MAIL_SERVER='smtp.googlemail.com'
+export MAIL_PORT='587'
+export MAIL_USE_TLS='True'
+export MAIL_USERNAME='BionicPythonic@gmail.com'
+export MAIL_PASSWORD='##SECRET PASSWORD##'
+export FAKEBOOK_MAIL_SENDER_PREFIX='[FakeBook]'
+export FAKEBOOK_MAIL_SENDER='FakeBook Admin <BionicPythonic@gmail.com>'
+export FAKEBOOK_ADMIN='BionicPythonic@gmail.com'
+export SQLALCHEMY_TRACK_MODIFICATIONS='False'
+export SQLALCHEMY_DATABASE_URI='sqlite:///~/fakebook-flask/data-dev.sqlite'
+
+
+export FLASK_APP=fakebook.py
+export FLASK_DEBUG=1
+
+export FLASK_CONFIG='default'
