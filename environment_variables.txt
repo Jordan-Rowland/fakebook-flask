@@ -11,7 +11,11 @@ export SQLALCHEMY_TRACK_MODIFICATIONS='False'
 export SQLALCHEMY_DATABASE_URI='sqlite:///~/fakebook-flask/data-dev.sqlite'
 
 
+cd fakebook-flask/
 export FLASK_APP=fakebook.py
 export FLASK_DEBUG=1
 
 export FLASK_CONFIG='default'
+
+source fakebook-flask/venv/bin/activate
+

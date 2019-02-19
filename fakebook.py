@@ -1,11 +1,9 @@
 import os
-from app import create_app, db
+from app import create_dev_app, create_test_app, create_prod_app, db
 from app.models import User, Post
 from flask_migrate import Migrate
 
-app = create_app('default')
-# config_name = 'default'
-# app = create_app(config_name)
+app = create_dev_app()
 migrate = Migrate(app, db)
 
 @app.shell_context_processor

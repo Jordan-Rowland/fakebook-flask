@@ -2,11 +2,12 @@ import os
 import secrets
 
 from PIL import Image, ImageOps
-from flask import render_template, redirect, url_for
+from flask import flash, render_template, redirect, url_for
 from flask_login import login_required, current_user
 
 from . import main
 from .. import db
+
 from .forms import PostForm, ChangePhotoForm
 from ..models import User, Post
 
@@ -63,7 +64,7 @@ def account():
         random_hex = secrets.token_hex(8)
         _, f_ext = os.path.splitext(photo_form.image_file.data.filename)
         photo_file = random_hex + f_ext
-        picture_path = os.path.join(app.root_path, 'static/img', photo_file)
+        picture_path = os.path.join('app/static/img', photo_file)
         output_size = (200, 200)
         i = Image.open(photo_form.image_file.data)
         sq_img = ImageOps.fit(i, output_size, Image.ANTIALIAS)

@@ -14,13 +14,11 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
-# basedir = os.path.abspath(os.path.dirname(__file__))
 
-
-def create_app(config_name):
+def create_dev_app():
     app = Flask(__name__)
-    app.config.from_object(config['default'])
-    config['default'].init_app(app)
+    app.config.from_object(config['development'])
+    config['development'].init_app(app)
 
     mail.init_app(app)
     moment.init_app(app)
@@ -31,6 +29,46 @@ def create_app(config_name):
     app.register_blueprint(main_blueprint)
 
     from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+    app.register_blueprint(auth_blueprint)
 
     return app
+
+
+def create_test_app():
+    app = Flask(__name__)
+    app.config.from_object(config['testing'])
+    config['testing'].init_app(app)
+
+    mail.init_app(app)
+    moment.init_app(app)
+    db.init_app(app)
+    login_manager.init_app(app)
+
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
+
+    return app
+
+
+
+def create_prod_app():
+    app = Flask(__name__)
+    app.config.from_object(config['production'])
+    config['production'].init_app(app)
+
+    mail.init_app(app)
+    moment.init_app(app)
+    db.init_app(app)
+    login_manager.init_app(app)
+
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
+
+    return app
+
