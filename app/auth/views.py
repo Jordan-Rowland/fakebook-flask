@@ -6,7 +6,8 @@ from werkzeug.security import generate_password_hash
 from . import auth
 from .. import db, main
 
-from .forms import (LoginForm, RegisterForm, ChangePasswordForm, ChangeEmailForm, RequestResetForm, ResetPasswordForm, ResetPasswordForm)
+from .forms import (LoginForm, RegisterForm, ChangePasswordForm, 
+    ChangeEmailForm, RequestResetForm, ResetPasswordForm, ResetPasswordForm)
 from ..email import send_email
 from ..models import User
 

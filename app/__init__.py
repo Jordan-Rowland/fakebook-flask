@@ -13,6 +13,10 @@ moment = Moment()
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
+login_manager.login_message = "Please log in to view this page"
+login_manager.login_message_category = 'card-panel blue lighten-3 s12'
+
+
 
 
 def create_dev_app():
