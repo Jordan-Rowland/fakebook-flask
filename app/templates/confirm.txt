@@ -1,0 +1,12 @@
+Hello {{ user.username }},
+
+Thank you for joining FakeBook!
+
+To confirm your account, please click the following link:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+Sincerely,
+Zark Muckerberg
+
+Note: replies to this email are not monitored 

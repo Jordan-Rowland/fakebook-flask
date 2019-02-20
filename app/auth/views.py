@@ -46,12 +46,30 @@ def register():
                     location=form.location.data)
         db.session.add(user)
         db.session.commit()
-        flash('Registration complete! Please log in.', 'card-panel green lighten-2')
+        token = user.generate_confirmation_token()
+        send_email(user.email, 'Confirm your account', 
+            'auth/email/confirm' user=user, token=token)
+        flash('Please check your email to validate your account.', 
+            'card-panel green lighten-2')
         return redirect(url_for('.login'))
 
     return render_template(
         'register.html',
         form=form,)
+
+
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    if current_user.confirmed:
+        return redirect(url_for('main.timeline'))
+    if current_user.confirm(token):
+        db.session.commit()
+        flash('Your account is confirmed!', 'card-panel green lighten-2')
+    else:
+        flash('The confirmation link is invalid or has expired', 
+            'card-panel red lighten-2')
+    return redirect(url_for('main.timeline'))
 
 
 @auth.route('/logout')

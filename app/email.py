@@ -10,7 +10,7 @@ def send_async_email(app, msg):
 def send_email(to, subject, template, **kwargs):
     msg = Message(app.config['FAKEBOOK_MAIL_SENDER_PREFIX'] + subject,
         sender=app.config['FAKEBOOK_MAIL_SENDER'], recipients=[to])
-    # msg.body = render_template(template + '.txt', **kwargs)
+    msg.body = render_template(template + '.txt', **kwargs)
     msg.html = render_template(template + '.html', **kwargs)
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
