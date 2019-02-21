@@ -25,7 +25,8 @@ def timeline():
     return render_template(
         'timeline.html',
         form=form,
-        posts=posts)
+        posts=posts,
+        db=db)
 
 
 @main.route('/users')

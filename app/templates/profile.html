@@ -7,15 +7,23 @@
   <div class="card-panel grey lighten-2">
     <div class="row">
   <img class="circle col l4" width="200px" src="{{ url_for('static', filename='img/' + user.photo) }}" alt="">
-  <div class="col l4">
+  <div class="col l8">
   <p>
-  {{ user.username }}
+  Username: {{ user.username }}
   </p>
   <p>
-  {{ user.location }}
+  Location: <a href="http://maps.google.com/?q={{ user.location }}">
+  {{ user.location }}  
+  </a>
   </p>
-  <div class="col l4">
-    <!-- {{ user.about_me }} -->
+  <p>
+  Member since: {{ moment(user.member_since).format('LL') }}
+  </p>
+  <p>
+  Last Active: {{ moment(user.last_seen).format('LL') }}
+  </p>
+  <div class="col l12">
+    Bio: {{ user.about_me }}
   </div>
   </div>
 
@@ -31,7 +39,7 @@
           <br>
           <div class="divider"></div>
           <p class="center">{{ post.content }}</p>
-          <p class="right-align">{{ moment(post.timestamp).format('LLLL') }}({{ moment(post.timestamp).fromNow() }})</p>
+          <p class="right-align">{{ moment(post.timestamp, local=True).format('LLLL') }}({{ moment(post.timestamp, local=True).fromNow() }})</p>
 
         </div>
       {% endfor %}

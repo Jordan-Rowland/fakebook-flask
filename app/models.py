@@ -24,7 +24,10 @@ class User(db.Model, UserMixin):
     photo = db.Column(db.String(), default='nouser.png')
     posts = db.relationship('Post', backref='user', lazy=True)
     confirmed = db.Column(db.Boolean(), default=False)
-    # about_me = db.Column(db.Text(500))
+    is_admin = db.Column(db.Boolean(), default=False)
+    about_me = db.Column(db.Text())
+    member_since = db.Column(db.DateTime(), default=datetime.utcnow)
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
 
 
     def __init__(self, email, username, location, password):
@@ -56,6 +59,12 @@ class User(db.Model, UserMixin):
         self.confirmed = True
         db.session.add(self)
         return True
+
+
+    def ping(self):
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
 
 
 class Post(db.Model):

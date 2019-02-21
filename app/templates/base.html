@@ -77,7 +77,13 @@
       <div class="divider"></div>
       <p class="center">{{ current_user.username }}</p>
       <div class="divider"></div>
+      {% if current_user.is_admin %}
+      <p class="center">Admin</p>
+      <div class="divider"></div>
+      {% endif %}
       <p class="center">{{ current_user.location }}</p>
+      <div class="divider"></div>
+      <p class="center">Last Seen: {{ moment(current_user.last_seen).format('LL') }}</p>
       <div class="divider"></div>
       <p class="center">Posts: {{ current_user.posts|length }}</p>
       <div class="divider"></div>

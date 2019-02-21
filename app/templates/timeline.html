@@ -26,12 +26,12 @@
           <span class="post-username">{{ post.user.username }}</span>
         </span>
           <br>
-          <div class="">
           <div class="divider"></div>
           <p class="center">{{ post.content }}</p>
-<p class="right-align">{{ moment(post.timestamp).format('LLLL') }}({{ moment(post.timestamp).fromNow() }})</p>
-
-          </div>
+<p class="right-align">{{ moment(post.timestamp, local=True).format('LLLL') }}({{ moment(post.timestamp, local=True).fromNow() }})</p>
+          {% if current_user.is_admin %}
+            <a href="#">Delete Post</a>
+          {% endif %}
         </div>
       {% endfor %}
 </section>
