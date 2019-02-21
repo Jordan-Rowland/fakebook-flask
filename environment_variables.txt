@@ -1,4 +1,6 @@
-source fakebook-flask/venv/bin/activate
+zsh
+
+source ~/env/fakebook-flask/venv/bin/activate
 
 export SECRET_KEY='mysecretkey'
 export MAIL_SERVER='smtp.googlemail.com'
@@ -12,7 +14,7 @@ export SQLALCHEMY_TRACK_MODIFICATIONS='False'
 export SQLALCHEMY_DATABASE_URI='sqlite:///~/fakebook-flask/data-dev.sqlite'
 
 
-cd fakebook-flask/
+cd ~/env/fakebook-flask/
 export FLASK_APP=fakebook.py
 export FLASK_DEBUG=1
 
