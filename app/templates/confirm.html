@@ -1,12 +1,8 @@
-Hello {{ user.username }},
+<p>Hello {{ user.username }},</p>
+<p>Thank you for joining FakeBook!</p>
+<p>To confirm your account, please click the following link:</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+<p>Sincerely,</p>
+<p>Zark Muckerberg</p>
 
-Thank you for joining FakeBook!
-
-To confirm your account, please click the following link:
-
-{{ url_for('auth.confirm', token=token, _external=True) }}
-
-Sincerely,
-Zark Muckerberg
-
-Note: replies to this email are not monitored 
+<p>Note: replies to this email are not monitored </p>

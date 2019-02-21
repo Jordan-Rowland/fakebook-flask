@@ -17,8 +17,6 @@ login_manager.login_message = "Please log in to view this page"
 login_manager.login_message_category = 'card-panel blue lighten-3 s12'
 
 
-
-
 def create_dev_app():
     app = Flask(__name__)
     app.config.from_object(config['development'])

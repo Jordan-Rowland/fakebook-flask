@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col l8">
+<div class="card-panel light-blue lighten-4">
+	<h5>Hello {{ current_user.username }}</h5>
+	<p>Looks like you haven't confirmed your account yet.</p>
+	<p>Please follow the link provided in your email, or <a href="{{ url_for('auth.resend_confirmation') }}">request a new verification email</a>.</p>
+
+<div>	
+<div>
+
+{% endblock %}

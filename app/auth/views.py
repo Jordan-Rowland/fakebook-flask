@@ -48,7 +48,7 @@ def register():
         db.session.commit()
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm your account', 
-            'auth/email/confirm' user=user, token=token)
+            'confirm', user=user, token=token)
         flash('Please check your email to validate your account.', 
             'card-panel green lighten-2')
         return redirect(url_for('.login'))
@@ -70,6 +70,32 @@ def confirm(token):
         flash('The confirmation link is invalid or has expired', 
             'card-panel red lighten-2')
     return redirect(url_for('main.timeline'))
+
+
+@auth.before_app_request
+def before_request():
+    if current_user.is_authenticated \
+            and not current_user.confirmed \
+            and request.blueprint != 'auth' \
+            and request.endpoint != 'static':
+        return redirect(url_for('auth.unconfirmed'))
+
+
+@auth.route('/confirm')
+@login_required
+def resend_confirmation():
+    token = current_user.generate_confirmation_token()
+    send_email(current_user.email, 'Confirm your account', 
+            'confirm', user=current_user, token=token)
+    flash('A new confirmation email has been sent!', 'card-panel green lighten-2')
+    return redirect(url_for('main.timeline'))
+
+
+@auth.route('/unconfirmed')
+def unconfirmed():
+    if current_user.is_anonymous or current_user.confirmed:
+        return redirect(url_for('main.timeline'))
+    return render_template('unconfirmed.html')
 
 
 @auth.route('/logout')
