@@ -67,7 +67,7 @@
   </div>
     {% endif %}
   {% if posts %}
-  {% for post in posts|reverse %}
+  {% for post in posts %}
         <div class="card-panel grey lighten-4 hoverable">
  <span class="post-profile">
           <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + post.user.photo) }}">

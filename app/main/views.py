@@ -16,7 +16,7 @@ from ..models import User, Post
 @main.route('/timeline', methods=['GET', 'POST'])
 def timeline():
     form = PostForm()
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
     if form.validate_on_submit():
         post = Post(form.post_content.data, user_id=current_user.id)
         db.session.add(post)
@@ -43,7 +43,7 @@ def users():
 def profile(user):
     form = AdminEditUser()
     user = User.query.filter_by(username=user).first_or_404()
-    posts = Post.query.filter_by(user_id=user.id).all()
+    posts = Post.query.filter_by(user_id=user.id).order_by(Post.timestamp.desc()).all()
     if form.validate_on_submit():
         user.email = form.email.data
         user.username = form.username.data
@@ -73,8 +73,7 @@ def profile(user):
 def account():
     form = PostForm()
     photo_form = ChangePhotoForm()
-    user_id=current_user.id
-    posts = Post.query.filter_by(user_id=user_id).all()
+    posts = Post.query.filter_by(user_id=current_user.id).order_by(Post.timestamp.desc()).all()
     if form.validate_on_submit() and form.post_content.data:
         post = Post(form.post_content.data, user_id=current_user.id)
         db.session.add(post)

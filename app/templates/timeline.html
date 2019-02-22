@@ -4,37 +4,39 @@
 
 <div class="col l8">
 <div class="card-panel light-blue lighten-4">
-  <section class="section">
+  {% include '_posts.html' %}
     {% if current_user.is_authenticated %}
+  <section class="section">
 <section class="section">
   <form method="post">
           {{ form.hidden_tag() }}
           {{ form.post_content.label() }}{{ form.post_content }}
-                    <div class="right-align">
-
+          <div class="right-align">
           {{ form.submit(class="btn blue") }}
           </div>
   </form>
 </section>
   </section>
-  <section class="section">
-    {% endif %}
-      {% for post in posts|reverse %}
-        <div class="card-panel grey lighten-4 hoverable post-content">
-          <span class="post-profile">
-          <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + post.user.photo) }}">
-          <span class="post-username">{{ post.user.username }}</span>
-        </span>
-          <br>
-          <div class="divider"></div>
-          <p class="center">{{ post.content }}</p>
+  {% endif %}
+  {% include '_posts.html' %}
+
+<!-- <section class="section">
+    {% for post in posts %}
+      <div class="card-panel grey lighten-4 hoverable post-content">
+        <span class="post-profile">
+        <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + post.user.photo) }}">
+        <span class="post-username">{{ post.user.username }}</span>
+      </span>
+        <br>
+        <div class="divider"></div>
+        <p class="center">{{ post.content }}</p>
 <p class="right-align">{{ moment(post.timestamp, local=True).format('LLLL') }}({{ moment(post.timestamp, local=True).fromNow() }})</p>
-          {% if current_user.is_admin %}
-            <a href="#">Delete Post</a>
-          {% endif %}
-        </div>
-      {% endfor %}
-</section>
+        {% if current_user.is_admin %}
+          <a href="#">Delete Post</a>
+        {% endif %}
+      </div>
+    {% endfor %}
+</section> -->
 </div>
 </div>
 
