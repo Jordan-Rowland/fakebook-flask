@@ -33,6 +33,7 @@
 <div class="card-panel grey lighten-2">
 <p><a href="{{ url_for('auth.changepassword') }}">Change your password</a></p>
 <p><a href="{{ url_for('auth.changeemail') }}">Update your email address</a></p>
+<p><a href="{{ url_for('main.updateprofile') }}">Update profile</a></p>
 <form method="POST" enctype="multipart/form-data">
   {{ photo_form.hidden_tag() }}
   <p>{{ photo_form.image_file.label(class="black-text") }} {{ photo_form.image_file}} </p>

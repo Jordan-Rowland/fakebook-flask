@@ -8,7 +8,7 @@ from flask_login import login_required, current_user
 from . import main
 from .. import db
 
-from .forms import PostForm, ChangePhotoForm
+from .forms import PostForm, ChangePhotoForm, EditProfileForm, AdminEditUser
 from ..models import User, Post
 
 
@@ -38,15 +38,34 @@ def users():
         users=users)
 
 
-@main.route('/profile/<user>')
+@main.route('/profile/<user>', methods=['GET', 'POST'])
 @login_required
 def profile(user):
+    form = AdminEditUser()
     user = User.query.filter_by(username=user).first_or_404()
     posts = Post.query.filter_by(user_id=user.id).all()
+    if form.validate_on_submit():
+        user.email = form.email.data
+        user.username = form.username.data
+        user.location = form.location.data
+        user.about_me = form.about.data
+        user.confirmed = form.confirmed.data
+        user.is_admin = form.admin.data
+        db.session.add(user)
+        db.session.commit()
+        flash('User updated', 'card-panel yellow lighten-2 s12')
+        return redirect(url_for('.profile', user=user.username))
+    form.email.data = user.email
+    form.username.data = user.username
+    form.location.data = user.location
+    form.about.data = user.about_me
+    form.confirmed.data = user.confirmed
+    form.admin.data = user.is_admin
     return render_template(
         'profile.html',
         user=user,
-        posts=posts)
+        posts=posts,
+        form=form)
 
 
 @main.route('/account', methods=['GET','POST'])
@@ -80,3 +99,15 @@ def account():
         photo_form=photo_form,
         posts=posts,)
 
+
+@main.route('/updateprofile', methods=['GET','POST'])
+@login_required
+def updateprofile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.location = form.location.data
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        flash('Profile updated!', 'card-panel green lighten-2 s12')
+        return redirect(url_for('main.account'))
+    return render_template('updateprofile.html', form=form)

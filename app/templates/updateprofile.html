@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col l8">
+<div class="card-panel light-blue lighten-4">
+    <section class="section">
+      <form method="post">
+          {{ form.hidden_tag() }}
+          {{ form.location.label(class="black-text") }}{{ form.location }}
+          <div class="input-field">
+            
+          {{ form.about_me.label(class="black-text") }}{{ form.about_me(class="materialize-textarea") }}
+          </div>
+          <div class="right-align">
+
+          {{ form.submit(class="btn blue") }}
+          </div>
+        </form> 
+    </section>
+</div>
+</div>
+
+{% endblock %}

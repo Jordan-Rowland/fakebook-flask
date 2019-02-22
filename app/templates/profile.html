@@ -22,13 +22,50 @@
   <p>
   Last Active: {{ moment(user.last_seen).format('LL') }}
   </p>
-  <div class="col l12">
-    Bio: {{ user.about_me }}
-  </div>
+  <p>
+  Bio: {{ user.about_me }}
+  </p>
+    {% if current_user.is_admin %}
+    Confirmed: {{ user.confirmed }}
+    <p>
+    Admin: {{ user.is_admin }}  
+    </p>
   </div>
 
   </div>
     </div>
+  <div class="card-panel grey lighten-2">
+    <h5 class="center">(( Admin only ))</h5>
+      <form method="post">
+        {{ form.hidden_tag() }}
+        {{ form.email.label(class="black-text") }}{{ form.email }}
+        {{ form.username.label(class="black-text") }}{{ form.username }}
+        {{ form.location.label(class="black-text") }}{{ form.location }}
+        <div class="input-field">
+        {{ form.about.label(class="black-text ") }}{{ form.about(class="materialize-textarea") }}
+      </div>
+      <p>
+      <label>
+        {{ form.confirmed(id="confirm") }}
+        <span>
+          {{ form.confirmed.label(class="black-text", for="confirm") }}
+        </span>
+      </label>
+      </p>
+        <p>
+      <label>
+          {{ form.admin(id="admin") }}
+        <span>
+          {{ form.admin.label(class="black-text", for="admin") }}
+        </span>
+      </label>
+        </p>
+        <div class="right-align">
+        {{ form.submit(class="btn blue") }}
+        </div>
+      </form>
+  </div>
+    {% endif %}
   {% if posts %}
   {% for post in posts|reverse %}
         <div class="card-panel grey lighten-4 hoverable">
