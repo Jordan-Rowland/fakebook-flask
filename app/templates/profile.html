@@ -34,6 +34,7 @@
 
   </div>
     </div>
+    {# ADMIN PANAL #}
   <div class="card-panel grey lighten-2">
     <h5 class="center">(( Admin only ))</h5>
       <form method="post">
@@ -66,20 +67,9 @@
       </form>
   </div>
     {% endif %}
+    {# POSTS #}
   {% if posts %}
-  {% for post in posts %}
-        <div class="card-panel grey lighten-4 hoverable">
- <span class="post-profile">
-          <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + post.user.photo) }}">
-          <span class="post-username">{{ post.user.username }}</span>
-        </span>
-          <br>
-          <div class="divider"></div>
-          <p class="center">{{ post.content }}</p>
-          <p class="right-align">{{ moment(post.timestamp, local=True).format('LLLL') }}({{ moment(post.timestamp, local=True).fromNow() }})</p>
-
-        </div>
-      {% endfor %}
+  {% include '_posts.html' %}
       {% else %}
       <section class="section">
       <h5>This user has no posts!</h5>

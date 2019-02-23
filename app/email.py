@@ -1,5 +1,5 @@
-""" Not sure what works here to get this email sent. 
-	Import app, or import current_app.
+""" 
+	Need to re-think this, because it is creating a new app instance to send the email
 """
 
 

@@ -6,6 +6,8 @@
 <section class="section">
     <div class="row">
       {% for user in users %}
+        {% if user.confirmed or current_user.is_admin %}
+          
         {# {% if user.id in following %} #}
           <div class="col s12 l4">
             <div class="card-panel">
@@ -17,7 +19,9 @@
               </div>
             </div>
           </div>
+          {% else %}
         {# {% endif %} #}
+        {% endif %}
       {% endfor %}
     </div>
 </section>
