@@ -13,6 +13,7 @@ class Config:
     FAKEBOOK_MAIL_SENDER_PREFIX = '[FAKEBOOK]'
     FAKEBOOK_MAIL_SENDER = 'FakeBook Admin <BionicPythonic@gmail.com>'
     FAKEBOOK_ADMIN = os.environ.get('FAKEBOOK_ADMIN')
+    FAKEBOOK_POSTS_PER_PAGE = os.environ.get('FAKEBOOK_POSTS_PER_PAGE')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod

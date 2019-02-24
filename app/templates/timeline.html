@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% import "_macros.html" as macros %}
 
 {% block content %}
 
@@ -19,6 +20,9 @@
   {% endif %}
 {# POSTS #}
   {% include '_posts.html' %}
+  <div class="pagination">
+    {{ macros.pagination_widget(pagination, '.timeline') }}
+  </div>
 </div>
 </div>
 

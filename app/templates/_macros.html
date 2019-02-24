@@ -1,0 +1,45 @@
+{% macro pagination_widget(pagination, endpoint) %}
+
+<ul class="pagination center">
+    <li {% if not pagination.has_prev %}
+    	class="disabled"
+    	{% endif %}>
+    		<a href="
+    		{% if pagination.has_prev %}
+    		{{ url_for(endpoint, page=pagination.page - 1, **kwargs) }}
+    		{% else %}
+    		#
+    		{% endif %}">
+    		<i class="material-icons">chevron_left</i>
+    		</a>
+	</li>
+	{% for page in pagination.iter_pages() %}
+		{% if page %}
+			{% if page == pagination.page %}
+		    <li class="active blue">
+		    	<a href="{{ url_for(endpoint, page=page, **kwargs) }}">{{ page }}</a>
+		    </li>
+		    {% else %}
+		    <li class="waves-effect">
+		    	<a href="{{ url_for(endpoint, page=page, **kwargs) }}">{{ page }}</a>
+		    </li>
+			{% endif %}
+	    {% else %}
+ 		<li class="disabled"><a href="#"></a></li>
+		{% endif %}
+	{% endfor %}
+    <li {% if not pagination.has_next %}
+    	class="disabled"
+    	{% endif %}>
+    		<a href="
+    		{% if pagination.has_next %}
+    		{{ url_for(endpoint, page=pagination.page + 1, **kwargs) }}
+    		{% else %}
+    		#
+    		{% endif %}">
+    		<i class="material-icons">chevron_right</i>
+    		</a>
+	</li>
+</ul>
+
+{% endmacro %}

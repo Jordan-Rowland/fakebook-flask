@@ -2,7 +2,8 @@ import os
 import secrets
 
 from PIL import Image, ImageOps
-from flask import flash, render_template, redirect, url_for
+from flask import (current_app, flash, render_template, 
+                   redirect, request, url_for)
 from flask_login import login_required, current_user
 
 from . import main
@@ -16,7 +17,11 @@ from ..models import User, Post
 @main.route('/timeline', methods=['GET', 'POST'])
 def timeline():
     form = PostForm()
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=int(current_app.config['FAKEBOOK_POSTS_PER_PAGE']),
+        error_out=False)
+    posts = pagination.items
     if form.validate_on_submit():
         post = Post(form.post_content.data, user_id=current_user.id)
         db.session.add(post)
@@ -26,7 +31,8 @@ def timeline():
         'timeline.html',
         form=form,
         posts=posts,
-        db=db)
+        db=db,
+        pagination=pagination)
 
 
 @main.route('/users')
