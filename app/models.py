@@ -25,15 +25,20 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='user', lazy=True)
     confirmed = db.Column(db.Boolean(), default=False)
     is_admin = db.Column(db.Boolean(), default=False)
-    about_me = db.Column(db.Text())
+    about_me = db.Column(db.Text(), default=None)
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
 
 
-    def __init__(self, email, username, location, password):
+    def __init__(self, email, username, 
+            location, password, confirmed,
+            about_me, member_since):
         self.email = email.lower()
         self.username = username
         self.location = location
+        self.confirmed = confirmed
+        self.about_me = about_me
+        self.member_since = member_since
         self.password_hash = generate_password_hash(password)
 
 
@@ -76,9 +81,10 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
 
-    def __init__(self, content, user_id):
+    def __init__(self, content, user_id, timestamp):
         self.content = content
         self.user_id = user_id
+        self.timestamp = timestamp
 
 
     def __repr__(self):
