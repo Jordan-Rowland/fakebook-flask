@@ -126,9 +126,38 @@ def follow(username):
         flash('Invalid user.', 'card-panel red lighten-2 s12')
         return redirect(url_for('.timeline'))
     if current_user.is_following(user):
-        flash('You are already following this user.', 'card-panel green lighten-2 s12')
+        flash('You are already following this user.', 'card-panel blue lighten-2 s12')
         return redirect(url_for('.profile', username=username))
     current_user.follow(user)
     db.session.commit()
-    flash(f'You are now following {username}!', 'card-panel green lighten-2 s12')
+    flash(f'You are now following {username}!', 'card-panel blue lighten-2 s12')
     return redirect(url_for('.profile', username=username))
+
+
+@main.route('/unfollow/<username>')
+@login_required
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('Invalid user.', 'card-panel red lighten-2 s12')
+        return redirect(url_for('.timeline'))
+
+    current_user.unfollow(user)
+    db.session.commit()
+    flash(f'You are no longer following {username}.', 'card-panel blue lighten-2 s12')
+    return redirect(url_for('.profile', username=username))
+
+
+@main.route('/deletepost/<post_id>')
+@login_required
+def deletepost(post_id):
+    post = Post.query.filter_by(id=post_id).first()
+    previous_page = request.args.get('page', 1, type=int)
+    if post is None:
+        flash('Invalid post.', 'card-panel red lighten-2 s12')
+        return redirect(url_for('.timeline', page=previous_page))
+    
+    db.session.delete(post)
+    db.session.commit()
+    flash(f'Post has been deleted. {previous_page}', 'card-panel blue lighten-2 s12')
+    return redirect(url_for(request.url)

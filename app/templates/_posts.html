@@ -5,13 +5,16 @@
           <span class="post-profile">
           <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + post.user.photo) }}">
           <span class="post-username">{{ post.user.username }}</span>
+        {% if current_user.is_following(post.user) %}
+  <span class="new badge green" data-badge-caption="Followed"></span>
+        {% endif %}
         </span>
           <br>
           <div class="divider"></div>
           <p class="center">{{ post.content }}</p>
 <p class="right-align">{{ moment(post.timestamp, local=True).format('LLLL') }}({{ moment(post.timestamp, local=True).fromNow() }})</p>
           {% if current_user.is_admin %}
-            <a href="#">Delete Post</a>
+            <a href="{{ url_for('.deletepost', post_id=post.id) }}">Delete Post</a>
           {% endif %}
         </div>
       {% endfor %}

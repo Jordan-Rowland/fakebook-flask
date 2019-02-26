@@ -12,15 +12,18 @@
 </div>
   <p>
   Username: {{ user.username }}
+          {% if user != current_user and current_user.is_followed_by(user) %}
+  <span class="new badge green" data-badge-caption="Follows you"></span>
+        {% endif %}
   <span class="new badge blue" data-badge-caption="followers">{{ user.followers.count() }}</span>
 
   </p>
   <p>
   Location: <a href="http://maps.google.com/?q={{ user.location }}">
   {{ user.location }}  
+  </a>
   <span class="new badge blue" data-badge-caption="following">{{ user.followed.count() }}</span>
 
-  </a>
   </p>
   <p>
   Member since: {{ moment(user.member_since).format('LL') }}
@@ -34,6 +37,7 @@
   {% if user != current_user %}
     {% if not current_user.is_following(user) %}
       <p>
+
         <a href="{{ url_for('.follow', username=user.username) }}" class="btn blue">Follow
         </a>
       </p>
