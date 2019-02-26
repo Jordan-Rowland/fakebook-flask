@@ -20,13 +20,6 @@ class Follow(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-# class Follow(db.Model):
-#     __tablename__ = 'follows'
-#     follower_id = db.Column(db.Integer(), db.ForeignKey('users.id'), primary_key=True)
-#     followed_id = db.Column(db.Integer(), db.ForeignKey('users.id'), primary_key=True)
-#     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-
-
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -109,13 +102,13 @@ class User(db.Model, UserMixin):
 
 
     def is_following(self, user):
-        if user.id is None():
+        if user.id is None:
             return False
         return self.followed.filter_by(follower_id=user.id).first() is not None
 
 
     def is_followed_by(self, user):
-        if user.id is None():
+        if user.id is None:
             return False
         return self.followers.filter_by(follower_id=user.id).first() is not None
 

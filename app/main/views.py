@@ -19,7 +19,7 @@ def timeline():
     form = PostForm()
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
-        page, per_page=int(current_app.config['FAKEBOOK_POSTS_PER_PAGE']),
+        page, per_page=10,
         error_out=False)
     posts = pagination.items
     if form.validate_on_submit():
@@ -44,11 +44,11 @@ def users():
         users=users)
 
 
-@main.route('/profile/<user>', methods=['GET', 'POST'])
+@main.route('/profile/<username>', methods=['GET', 'POST'])
 @login_required
-def profile(user):
+def profile(username):
     form = AdminEditUser()
-    user = User.query.filter_by(username=user).first_or_404()
+    user = User.query.filter_by(username=username).first_or_404()
     posts = Post.query.filter_by(user_id=user.id).order_by(Post.timestamp.desc()).all()
     if form.validate_on_submit():
         user.email = form.email.data
@@ -116,3 +116,19 @@ def updateprofile():
         flash('Profile updated!', 'card-panel green lighten-2 s12')
         return redirect(url_for('main.account'))
     return render_template('updateprofile.html', form=form)
+
+
+@main.route('/follow/<username>')
+@login_required
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('Invalid user.', 'card-panel red lighten-2 s12')
+        return redirect(url_for('.timeline'))
+    if current_user.is_following(user):
+        flash('You are already following this user.', 'card-panel green lighten-2 s12')
+        return redirect(url_for('.profile', username=username))
+    current_user.follow(user)
+    db.session.commit()
+    flash(f'You are now following {username}!', 'card-panel green lighten-2 s12')
+    return redirect(url_for('.profile', username=username))
