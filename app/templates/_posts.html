@@ -1,5 +1,4 @@
-
-  <section class="section">
+<section class="section">
       {% for post in posts %}
         <div class="card-panel grey lighten-4 hoverable post-content">
           <span class="post-profile">
@@ -14,7 +13,7 @@
           <p class="center">{{ post.content }}</p>
 <p class="right-align">{{ moment(post.timestamp, local=True).format('LLLL') }}({{ moment(post.timestamp, local=True).fromNow() }})</p>
           {% if current_user.is_admin %}
-            <a href="{{ url_for('.deletepost', post_id=post.id) }}">Delete Post</a>
+            <a href="{{ url_for('.deletepost', post_id=post.id, page=page) }}">Delete Post</a>
           {% endif %}
         </div>
       {% endfor %}

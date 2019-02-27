@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from . import auth
 from .. import db, main
 
-from .forms import (LoginForm, RegisterForm, ChangePasswordForm, 
+from .forms import (LoginForm, RegisterForm, ChangePasswordForm,
     ChangeEmailForm, RequestResetForm, ResetPasswordForm, ResetPasswordForm)
 from ..email import send_email
 from ..models import User
@@ -26,8 +26,8 @@ def login():
                 return redirect(url_for('main.timeline'))
             next_split = next.split('/')
             # Parenthesis might not work here
-            return (redirect(url_for(f'main.{next[1:]}'))
-                or redirect(url_for(f'auth.{next[1:]}')))
+            # return (redirect(url_for(f'main.{next[1:]}'))
+            #     or redirect(url_for(f'auth.{next[1:]}')))
             return redirect(url_for('main.timeline'))
 
         flash('Invalid email or password', 'card-panel red lighten-2')
@@ -47,9 +47,9 @@ def register():
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        send_email(user.email, 'Confirm your account', 
+        send_email(user.email, 'Confirm your account',
             'confirm', user=user, token=token)
-        flash('Please check your email to validate your account.', 
+        flash('Please check your email to validate your account.',
             'card-panel green lighten-2')
         return redirect(url_for('.login'))
 
@@ -67,7 +67,7 @@ def confirm(token):
         db.session.commit()
         flash('Your account is confirmed!', 'card-panel green lighten-2')
     else:
-        flash('The confirmation link is invalid or has expired', 
+        flash('The confirmation link is invalid or has expired',
             'card-panel red lighten-2')
     return redirect(url_for('main.timeline'))
 
@@ -96,7 +96,7 @@ def before_request():
 @login_required
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
-    send_email(current_user.email, 'Confirm your account', 
+    send_email(current_user.email, 'Confirm your account',
             'confirm', user=current_user, token=token)
     flash('A new confirmation email has been sent!', 'card-panel green lighten-2')
     return redirect(url_for('main.timeline'))

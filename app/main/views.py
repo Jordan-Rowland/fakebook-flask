@@ -2,7 +2,7 @@ import os
 import secrets
 
 from PIL import Image, ImageOps
-from flask import (current_app, flash, render_template, 
+from flask import (current_app, flash, render_template,
                    redirect, request, url_for)
 from flask_login import login_required, current_user
 
@@ -15,6 +15,7 @@ from ..models import User, Post
 
 @main.route('/', methods=['GET', 'POST'])
 @main.route('/timeline', methods=['GET', 'POST'])
+@login_required
 def timeline():
     form = PostForm()
     page = request.args.get('page', 1, type=int)
@@ -32,7 +33,8 @@ def timeline():
         form=form,
         posts=posts,
         db=db,
-        pagination=pagination)
+        pagination=pagination,
+        page=page)
 
 
 @main.route('/users')
@@ -156,8 +158,8 @@ def deletepost(post_id):
     if post is None:
         flash('Invalid post.', 'card-panel red lighten-2 s12')
         return redirect(url_for('.timeline', page=previous_page))
-    
+
     db.session.delete(post)
     db.session.commit()
-    flash(f'Post has been deleted. {previous_page}', 'card-panel blue lighten-2 s12')
-    return redirect(url_for(request.url)
+    flash(f'Post has been deleted.', 'card-panel blue lighten-2 s12')
+    return redirect(url_for('.timeline', page=previous_page))
