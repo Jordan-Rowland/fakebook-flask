@@ -130,3 +130,9 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.id}', '{self.timestamp}', '{self.user_id}')"
+
+
+    @property
+    def follower_posts(self):
+        return Post.query.join(Follow, Follow.followed_id == Post.user_id).filter_by(
+            Follow.follower_id == self.id)

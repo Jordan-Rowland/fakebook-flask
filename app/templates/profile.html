@@ -23,7 +23,9 @@
   {{ user.location }}  
   </a>
   <span class="new badge blue" data-badge-caption="following">{{ user.followed.count() }}</span>
-
+  </p>
+  <p>
+    Posts: {{ user.posts|count }}
   </p>
   <p>
   Member since: {{ moment(user.member_since).format('LL') }}

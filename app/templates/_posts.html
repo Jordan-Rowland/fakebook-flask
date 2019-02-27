@@ -4,9 +4,11 @@
           <span class="post-profile">
           <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + post.user.photo) }}">
           <span class="post-username">{{ post.user.username }}</span>
+          {% if current_user.is_authenticated %}
         {% if current_user.is_following(post.user) %}
   <span class="new badge green" data-badge-caption="Followed"></span>
         {% endif %}
+          {% endif %}
         </span>
           <br>
           <div class="divider"></div>

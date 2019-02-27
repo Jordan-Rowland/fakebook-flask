@@ -13,9 +13,13 @@ from .forms import PostForm, ChangePhotoForm, EditProfileForm, AdminEditUser
 from ..models import User, Post
 
 
-@main.route('/', methods=['GET', 'POST'])
+@main.route('/')
+def index():
+    return redirect(url_for('.timeline'))
+
+
 @main.route('/timeline', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def timeline():
     form = PostForm()
     page = request.args.get('page', 1, type=int)
@@ -149,7 +153,7 @@ def unfollow(username):
     flash(f'You are no longer following {username}.', 'card-panel blue lighten-2 s12')
     return redirect(url_for('.profile', username=username))
 
-
+### Need to account for deleting posts from profile...
 @main.route('/deletepost/<post_id>')
 @login_required
 def deletepost(post_id):
