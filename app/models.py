@@ -35,6 +35,7 @@ class User(db.Model, UserMixin):
     about_me = db.Column(db.Text(), default=None)
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    comments = db.relationship('Comment', backref='user', lazy='dynamic')
     followed = db.relationship('Follow',
         foreign_keys=[Follow.follower_id],
         backref=db.backref('follower', lazy='joined'),
@@ -143,6 +144,7 @@ class Post(db.Model):
     content = db.Column(db.Text(500), index=True, nullable=False)
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
 
     def __init__(self, content, user_id):
@@ -152,3 +154,13 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.id}', '{self.timestamp}', '{self.user_id}')"
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer(), primary_key=True)
+    content = db.Column(db.Text(500))
+    timestamp = db.Column(db.DateTime, index=True, nullable=False, default=datetime.now)
+    disabled = db.Column(db.Boolean())
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
+    post_id = db.Column(db.Integer(), db.ForeignKey('posts.id'), nullable=False)

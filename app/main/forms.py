@@ -10,6 +10,11 @@ class PostForm(FlaskForm):
     submit = SubmitField('Post')
 
 
+class CommentForm():
+    comment_content = StringField('Comment', validators=[DataRequired()])
+    submit = SubmitField('Comment')
+
+
 class ChangePhotoForm(FlaskForm):
     image_file = FileField('Change your profile photo',
         validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
