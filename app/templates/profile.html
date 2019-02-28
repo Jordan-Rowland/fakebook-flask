@@ -15,14 +15,14 @@
           {% if user != current_user and current_user.is_followed_by(user) %}
   <span class="new badge green" data-badge-caption="Follows you"></span>
         {% endif %}
-  <span class="new badge blue" data-badge-caption="followers">{{ user.followers.count() }}</span>
+  <span class="new badge blue" data-badge-caption="followers">{{ user.followers.count() - 1 }}</span>
 
   </p>
   <p>
   Location: <a href="http://maps.google.com/?q={{ user.location }}">
   {{ user.location }}  
   </a>
-  <span class="new badge blue" data-badge-caption="following">{{ user.followed.count() }}</span>
+  <span class="new badge blue" data-badge-caption="following">{{ user.followed.count() - 1 }}</span>
   </p>
   <p>
     Posts: {{ user.posts|count }}

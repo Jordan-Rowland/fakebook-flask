@@ -3,7 +3,8 @@ import secrets
 
 from PIL import Image, ImageOps
 from flask import (current_app, flash, render_template,
-                   redirect, request, url_for)
+                   redirect, request, url_for, 
+                   make_response)
 from flask_login import login_required, current_user
 
 from . import main
@@ -19,14 +20,20 @@ def index():
 
 
 @main.route('/timeline', methods=['GET', 'POST'])
-# @login_required
 def timeline():
-    form = PostForm()
+    show_followed = False
+    if current_user.is_authenticated:
+        show_followed = bool(request.cookies.get('show_followed', ''))
+    if show_followed:
+        query = current_user.followed_posts
+    else:
+        query = Post.query
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+    pagination = query.order_by(Post.timestamp.desc()).paginate(
         page, per_page=10,
         error_out=False)
     posts = pagination.items
+    form = PostForm()
     if form.validate_on_submit():
         post = Post(form.post_content.data, user_id=current_user.id)
         db.session.add(post)
@@ -39,6 +46,22 @@ def timeline():
         db=db,
         pagination=pagination,
         page=page)
+
+
+@main.route('/show_all')
+@login_required
+def show_all():
+    response = make_response(redirect(url_for('.timeline')))
+    response.set_cookie('show_followed', '', max_age=60*60*24*30) # 30 days
+    return response
+
+
+@main.route('/show_followed')
+@login_required
+def show_followed():
+    response = make_response(redirect(url_for('.timeline')))
+    response.set_cookie('show_followed', '1', max_age=60*60*24*30) # 30 days
+    return response
 
 
 @main.route('/users')
@@ -66,7 +89,7 @@ def profile(username):
         db.session.add(user)
         db.session.commit()
         flash('User updated', 'card-panel yellow lighten-2 s12')
-        return redirect(url_for('.profile', user=user.username))
+        return redirect(url_for('.profile', username=user.username))
     form.email.data = user.email
     form.username.data = user.username
     form.location.data = user.location

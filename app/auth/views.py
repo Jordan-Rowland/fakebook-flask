@@ -43,9 +43,9 @@ def register():
                     location=form.location.data)
         db.session.add(user)
         db.session.commit()
-        token = user.generate_confirmation_token()
-        send_email(user.email, 'Confirm your account',
-            'confirm', user=user, token=token)
+        # token = user.generate_confirmation_token()
+        # send_email(user.email, 'Confirm your account',
+            # 'confirm', user=user, token=token)
         flash('Please check your email to validate your account.',
             'card-panel green lighten-2')
         return redirect(url_for('.login'))

@@ -19,6 +19,8 @@
   </section>
   {% endif %}
 {# POSTS #}
+  <a class="btn blue" href="{{ url_for('.show_all') }}">All</a>
+  <a class="btn blue" href="{{ url_for('.show_followed') }}">Followed</a>
   {% include '_posts.html' %}
   <div class="pagination">
     {{ macros.pagination_widget(pagination, '.timeline') }}

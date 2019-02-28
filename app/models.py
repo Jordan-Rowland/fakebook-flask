@@ -48,15 +48,23 @@ class User(db.Model, UserMixin):
 
 
     def __init__(self, email, username, 
-            location, password, confirmed,
-            about_me, member_since):
+            location, password):
         self.email = email.lower()
         self.username = username
         self.location = location
-        self.confirmed = confirmed
-        self.about_me = about_me
-        self.member_since = member_since
         self.password_hash = generate_password_hash(password)
+
+
+    # def __init__(self, email, username, 
+    #         location, password, confirmed,
+    #         about_me, member_since):
+    #     self.email = email.lower()
+    #     self.username = username
+    #     self.location = location
+    #     self.confirmed = confirmed
+    #     self.about_me = about_me
+    #     self.member_since = member_since
+    #     self.password_hash = generate_password_hash(password)
 
 
     def __repr__(self):
@@ -113,6 +121,21 @@ class User(db.Model, UserMixin):
         return self.followers.filter_by(follower_id=user.id).first() is not None
 
 
+    @property
+    def followed_posts(self):
+        return Post.query.join(Follow, Follow.followed_id == Post.user_id).filter(
+            Follow.follower_id == self.id)
+
+
+    @staticmethod
+    def add_self_follows():
+        for user in User.query.all():
+            if not user.is_following(user):
+                user.follow(user)
+                db.session.add(user)
+                db.session.commit()
+
+
 class Post(db.Model):
     __tablename__ = 'posts'
 
@@ -122,17 +145,10 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
 
-    def __init__(self, content, user_id, timestamp):
+    def __init__(self, content, user_id):
         self.content = content
         self.user_id = user_id
-        self.timestamp = timestamp
 
 
     def __repr__(self):
         return f"Post('{self.id}', '{self.timestamp}', '{self.user_id}')"
-
-
-    @property
-    def follower_posts(self):
-        return Post.query.join(Follow, Follow.followed_id == Post.user_id).filter_by(
-            Follow.follower_id == self.id)
