@@ -194,6 +194,21 @@ def deletepost(post_id):
     return redirect(url_for('.timeline', page=previous_page))
 
 
+@main.route('/deletecomment/<comment_id>')
+@login_required
+def deletecomment(comment_id):
+    comment = Comment.query.filter_by(id=comment_id).first()
+    previous_page = request.args.get('page', 1, type=int)
+    if comment is None:
+        flash('Invalid comment.', 'card-panel red lighten-2 s12')
+        return redirect(url_for('.post', page=previous_page))
+
+    db.session.delete(post)
+    db.session.commit()
+    flash(f'Post has been deleted.', 'card-panel blue lighten-2 s12')
+    return redirect(url_for('.timeline', page=previous_page))
+
+
 @main.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -212,5 +227,10 @@ def post(post_id):
     pagination = post.comments.order_by(Comment.timestamp.asc()).paginate(
         page, per_page=10, error_out=False)
     comments = pagination.items
-    return render_template('post.html', posts=[post], form=form,
-        comments=comments, pagination=pagination, page=page)
+    return render_template('post.html',
+        posts=[post],
+        form=form,
+        comments=comments,
+        pagination=pagination,
+        page=page,
+        post_id=post_id)

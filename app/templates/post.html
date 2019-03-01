@@ -5,8 +5,8 @@
 
 <div class="col l8">
 <div class="card-panel light-blue lighten-4">
-<section class="section">
     <div class="row">
+<section class="section">
         {% include '_posts.html' %}
 </section>
 <section class="section">
@@ -22,15 +22,14 @@
 </form>
 </section>
 {% include '_comments.html' %}
-{# {% if pagination %}
+{% if pagination %}
   <div class="pagination">
-    {{ macros.pagination_widget(pagination, '.post') }}
+    {{ macros.pagination_widget(pagination, '.post', post_id=post_id) }}
   </div>
-{% endif %} #}
+{% endif %}
 
 </div>
 </div>
-
-
+</div>
 
 {% endblock %}
