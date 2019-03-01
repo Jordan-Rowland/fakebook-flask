@@ -16,8 +16,10 @@
 <p class="right-align">{{ moment(post.timestamp, local=True).format('LLLL') }}({{ moment(post.timestamp, local=True).fromNow() }})</p>
           {% if current_user.is_admin %}
             <a href="{{ url_for('.deletepost', post_id=post.id, page=page) }}">Delete Post</a>
-            <a class="right" href="{{ url_for('.post', post_id=post.id) }}">{{ post.comments.count() }} comments</a>
           {% endif %}
+          <div class="right-align">
+            <a  href="{{ url_for('.post', post_id=post.id) }}">{{ post.comments.count() }} comments</a>
+          </div>
         </div>
       {% endfor %}
 </section>

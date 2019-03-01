@@ -8,8 +8,6 @@
     <div class="row">
   <img class="circle col l4" width="200px" src="{{ url_for('static', filename='img/' + user.photo) }}" alt="">
   <div class="col l8">
-    <div>
-</div>
   <p>
   Username: {{ user.username }}
           {% if user != current_user and current_user.is_followed_by(user) %}
@@ -20,7 +18,7 @@
   </p>
   <p>
   Location: <a href="http://maps.google.com/?q={{ user.location }}">
-  {{ user.location }}  
+  {{ user.location }}
   </a>
   <span class="new badge blue" data-badge-caption="following">{{ user.followed.count() - 1 }}</span>
   </p>
@@ -47,19 +45,23 @@
       <p>
         <a href="{{ url_for('.unfollow', username=user.username) }}" class="btn blue">Unfollow
         </a>
-      </p>   
+      </p>
     {% endif %}
   {% endif %}
     {% if current_user.is_admin %}
     Confirmed: {{ user.confirmed }}
     <p>
-    Admin: {{ user.is_admin }}  
+    Admin: {{ user.is_admin }}
     </p>
+  {% endif %}
+
   </div>
 
   </div>
     </div>
     {# ADMIN PANAL #}
+    {% if current_user.is_admin %}
+
   <div class="card-panel grey lighten-2">
     <h5 class="center">(( Admin only ))</h5>
       <form method="post">

@@ -21,11 +21,13 @@ def login():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user is not None and user.check_password(form.password.data):
             login_user(user)
-            next = request.args.get('next')
-            if next is None:
-                return redirect(url_for('main.timeline'))
-            return (redirect(url_for(f'main.{next[1:]}'))
-                or redirect(url_for(f'auth.{next[1:]}')))
+            return redirect(url_for('main.timeline'))
+
+            # next = request.args.get('next')
+            # if next is None:
+                # return redirect(url_for('main.timeline'))
+            # return (redirect(url_for(f'main.{next[1:]}'))
+            #     or redirect(url_for(f'auth.{next[1:]}')))
 
         flash('Invalid email or password', 'card-panel red lighten-2')
     return render_template(
