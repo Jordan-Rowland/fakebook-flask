@@ -203,10 +203,12 @@ def deletecomment(comment_id):
         flash('Invalid comment.', 'card-panel red lighten-2 s12')
         return redirect(url_for('.post', page=previous_page))
 
-    db.session.delete(post)
+    db.session.delete(comment)
     db.session.commit()
     flash(f'Post has been deleted.', 'card-panel blue lighten-2 s12')
     return redirect(url_for('.timeline', page=previous_page))
+    # Need to find out how to add post ID to this route.
+    # return redirect(url_for('.post', page=previous_page))
 
 
 @main.route('/post/<int:post_id>', methods=['GET', 'POST'])
