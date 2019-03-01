@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as macros %}
+
+{% block content %}
+
+<div class="col l8">
+<div class="card-panel light-blue lighten-4">
+<section class="section">
+    <div class="row">
+        {% include '_posts.html' %}
+</section>
+<section class="section">
+
+<form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.comment_content.label(class="black-text") }}
+    {{ form.comment_content }}
+    <div class="right-align">
+        {{ form.submit(class="blue btn") }}
+    </div>
+
+</form>
+</section>
+{% include '_comments.html' %}
+{# {% if pagination %}
+  <div class="pagination">
+    {{ macros.pagination_widget(pagination, '.post') }}
+  </div>
+{% endif %} #}
+
+</div>
+</div>
+
+
+
+{% endblock %}

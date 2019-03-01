@@ -3,15 +3,17 @@ import secrets
 
 from PIL import Image, ImageOps
 from flask import (current_app, flash, render_template,
-                   redirect, request, url_for, 
+                   redirect, request, url_for,
                    make_response)
 from flask_login import login_required, current_user
 
 from . import main
 from .. import db
 
-from .forms import PostForm, ChangePhotoForm, EditProfileForm, AdminEditUser
-from ..models import User, Post
+from .forms import (PostForm, ChangePhotoForm,
+                    EditProfileForm, AdminEditUser,
+                    CommentForm)
+from ..models import User, Post, Comment
 
 
 @main.route('/')
@@ -192,23 +194,23 @@ def deletepost(post_id):
     return redirect(url_for('.timeline', page=previous_page))
 
 
-# @main.route('/post/<int:post_id>')
-# def post(post_id):
-#     post = Post.query.first_or_404(post_id)
-#     form = CommentForm()
-#     if form.validate_on_submit():
-#         comment = Comment(content=form.comment_content.data,
-#                           post=post,
-#                           user_id=current_user._get_current_object())
-#         db.session.add(comment)
-#         db.session.commit()
-#         flash('Comment posted!', 'card-panel green lighten-2 s12')
-#         return redirect(url_for('.post', post_id=post.id, page=-1))
-#     page = request.args.get('page', 1, type=int)
-#     if page == -1:
-#         page = (post.comments.count() - 1) // 10 + 1 # '10' is for Comments per page
-#     pagination = post.comments.order_by(Comment.timestamp.asc()).paginate(
-#         page, per_page=10, error_out=False)
-#     comments = pagination.items
-#     return render_template('post.html', posts=[post], form=form, 
-#         comments=comments, pagination=pagination) 
+@main.route('/post/<int:post_id>', methods=['GET', 'POST'])
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(content=form.comment_content.data,
+                          post=post,
+                          user_id=current_user.id)
+        db.session.add(comment)
+        db.session.commit()
+        flash('Comment posted!', 'card-panel green lighten-2 s12')
+        return redirect(url_for('.post', post_id=post.id, page=-1))
+    page = request.args.get('page', 1, type=int)
+    if page == -1:
+        page = (post.comments.count() - 1) // 10 + 1 # '10' is for Comments per page
+    pagination = post.comments.order_by(Comment.timestamp.asc()).paginate(
+        page, per_page=10, error_out=False)
+    comments = pagination.items
+    return render_template('post.html', posts=[post], form=form,
+        comments=comments, pagination=pagination, page=page)

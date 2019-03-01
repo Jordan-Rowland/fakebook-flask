@@ -1,0 +1,22 @@
+<section class="section">
+{% for comment in comments %}
+     <div class="card-panel grey lighten-4 hoverable post-content">
+          <span class="post-profile">
+          <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + comment.user.photo) }}">
+          <span class="post-username">{{ comment.user.username }}</span>
+          {% if current_user.is_authenticated %}
+        {% if current_user.is_following(comment.user) and comment.user != current_user %}
+  <span class="new badge green" data-badge-caption="Followed"></span>
+        {% endif %}
+          {% endif %}
+        </span>
+          <br>
+          <div class="divider"></div>
+          <p class="center">{{ comment.content }}</p>
+<p class="right-align">{{ moment(comment.timestamp).format('LLLL') }}
+({{ moment(comment.timestamp).fromNow() }})</p>
+          {% if current_user.is_admin %}
+        {#     <a href="{{ url_for('.deletepost', post_id=post.id, page=page) }}">Delete Post</a> #}
+        {%endif%}
+{% endfor %}
+</section>
