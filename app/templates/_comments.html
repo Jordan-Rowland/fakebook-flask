@@ -17,7 +17,7 @@
 ({{ moment(comment.timestamp).fromNow() }})</p>
           {% if current_user.is_admin %}
             <a href="{{ url_for('.deletecomment', comment_id=comment.id, page=page, post_id=post_id) }}">Delete Post</a>
-          </div>
         {%endif%}
+          </div>
 {% endfor %}
 </section>
