@@ -32,6 +32,9 @@ def create_dev_app():
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
+    from .api import api as api_blueprint
+    app.register_blueprint(api_blueprint, url_prefix='/api/v1')
+
     return app
 
 
@@ -50,6 +53,9 @@ def create_test_app():
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
+
+    from .api import api as api_blueprint
+    app.register_blueprint(api_blueprint, url_prefix='/api/v1')
 
     return app
 
@@ -70,6 +76,9 @@ def create_prod_app():
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
+
+    from .api import api as api_blueprint
+    app.register_blueprint(api_blueprint, url_prefix='/api/v1')
 
     return app
 
