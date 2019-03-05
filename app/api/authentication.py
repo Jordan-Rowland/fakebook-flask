@@ -1,6 +1,11 @@
-from .errors import unauthorized
-
+from flask import g, jsonify
 from flask_httpauth import HTTPBasicAuth
+
+from . import api
+from .errors import unauthorized, forbidden
+from ..models import User
+
+
 auth = HTTPBasicAuth()
 
 
@@ -30,7 +35,7 @@ def verify_password(email_or_token, password):
         return False
     g.current_user = user
     g.token_user = False
-    return user.verify_password(password)
+    return user.check_password(password)
 
 
 @api.route('/tokens/', methods=['GET', 'POST'])
