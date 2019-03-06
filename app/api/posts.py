@@ -37,7 +37,8 @@ def get_post(id):
 @api.route('/posts/', methods=['POST'])
 def new_post():
     post = Post.from_json(request.json)
-    post.author = g.current_user
+    post.user_id = g.current_user.id
+    print(post)
     db.session.add(post)
     db.session.commit()
     return jsonify(post.to_json()), 201, \
@@ -47,9 +48,9 @@ def new_post():
 @api.route('/posts/<int:id>', methods=['PUT'])
 def edit_post(id):
     post = Post.query.get_or_404(id)
-    if g.current_user != post.author:
+    if g.current_user.id != post.user_id:
         return forbidden('Insufficient permissions')
-    post.body = request.json.get('body', post.body)
+    post.body = request.json.get('content', post.content)
     db.session.add(post)
     db.session.commit()
     return jsonify(post.to_json())

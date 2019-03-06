@@ -39,7 +39,7 @@ def verify_password(email_or_token, password):
 
 
 @api.route('/tokens/', methods=['GET', 'POST'])
-def get_tokens():
+def get_token():
     if g.current_user.is_anonymous or g.token_used:
         return unauthorized('Invalid Credentials')
     return jsonify({"token": g.current_user.generate_auth_token(

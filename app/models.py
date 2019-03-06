@@ -141,7 +141,7 @@ class User(db.Model, UserMixin):
     def generate_auth_token(self, expiration):
         s = Serializer(current_app.config['SECRET_KEY'],
                        expires_in=expiration)
-        return s.dumps({"id": self.id.decode(utf-8)})
+        return s.dumps({"id": self.id}).decode('utf-8')
 
 
     @staticmethod
@@ -151,7 +151,7 @@ class User(db.Model, UserMixin):
             data = s.loads(token)
         except:
             return None
-        return Iser.query.get(data['id'])
+        return User.query.get(data['id'])
 
 
     def to_json(self):
@@ -178,9 +178,9 @@ class Post(db.Model):
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
 
-    def __init__(self, content, user_id):
-        self.content = content
-        self.user_id = user_id
+    # def __init__(self, content, user_id):
+    #     self.content = content
+    #     self.user_id = user_id
 
 
     def __repr__(self):
@@ -201,10 +201,10 @@ class Post(db.Model):
 
     @staticmethod
     def from_json(json_post):
-        body = json_post.get('content')
-        if body is None or body == '':
-            raise ValidationError('post does not have a body')
-        return Post(content=body)
+        content = json_post.get('content')
+        if content is None or content == '':
+            raise ValidationError('post does not have any content')
+        return Post(content=content)
 
 
 class Comment(db.Model):
