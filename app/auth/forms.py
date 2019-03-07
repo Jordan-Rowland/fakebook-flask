@@ -76,16 +76,17 @@ class ChangePasswordForm(FlaskForm):
 
 
 class ResetPasswordForm(FlaskForm):
-    new_password = PasswordField('Enter the email you use to login to reset your password',
+    new_password = PasswordField(
+        'Enter a new password',
         validators=[
-            Length(8,150),
+            Length(min=8,max=150),
             DataRequired(),])
     password_confirm = PasswordField(
-        'Confirm your Password',
+        'Confirm your new password',
         validators=[
             DataRequired(),
-            EqualTo('password', message='Passwords must match'),])
-    submit = SubmitField('Update Email')
+            EqualTo('new_password', message='Passwords must match'),])
+    submit = SubmitField('Reset Password')
 
 
 class ChangeEmailForm(FlaskForm):

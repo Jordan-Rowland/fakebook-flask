@@ -1,4 +1,6 @@
-<h1>
-TEST
-
-</h1>
+<p>Hello {{ user.username }},</p>
+<p>To reset your password, please click the following link:</p>
+<p>{{ url_for('auth.resetpass', token=token, _external=True) }}</p>
+<p>Sincerely,</p>
+<p>Zark Muckerberg</p>
+<p>Note: replies to this email are not monitored </p>

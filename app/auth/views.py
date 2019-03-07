@@ -18,8 +18,10 @@ def login():
         return redirect(url_for('main.timeline'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data.lower()).first()
-        if user is not None and user.check_password(form.password.data):
+        user = User.query.filter_by(
+            email=form.email.data.lower()).first()
+        if user is not None and user.check_password(
+                form.password.data):
             login_user(user)
             return redirect(url_for('main.timeline'))
 
@@ -29,7 +31,8 @@ def login():
             # return (redirect(url_for(f'main.{next[1:]}'))
             #     or redirect(url_for(f'auth.{next[1:]}')))
 
-        flash('Invalid email or password', 'card-panel red lighten-2')
+        flash('Invalid email or password',
+              'card-panel red lighten-2')
     return render_template(
         'login.html',
         form=form,)
@@ -49,7 +52,7 @@ def register():
         # send_email(user.email, 'Confirm your account',
             # 'confirm', user=user, token=token)
         flash('Please check your email to validate your account.',
-            'card-panel green lighten-2')
+              'card-panel green lighten-2')
         return redirect(url_for('.login'))
 
     return render_template(
@@ -64,10 +67,12 @@ def confirm(token):
         return redirect(url_for('main.timeline'))
     if current_user.confirm(token):
         db.session.commit()
-        flash('Your account is confirmed!', 'card-panel green lighten-2')
+        flash('Your account is confirmed!',
+              'card-panel green lighten-2')
     else:
-        flash('The confirmation link is invalid or has expired',
-            'card-panel red lighten-2')
+        flash('The confirmation link is invalid or '
+              'has expired',
+              'card-panel red lighten-2')
     return redirect(url_for('main.timeline'))
 
 
@@ -88,7 +93,7 @@ def before_request():
                 and request.endpoint \
                 and request.blueprint != 'auth' \
                 and request.endpoint != 'static':
-            redirect(url_for('auth.unconfirmed'))
+            return redirect(url_for('auth.unconfirmed'))
 
 
 @auth.route('/confirm')
@@ -97,7 +102,8 @@ def resend_confirmation():
     token = current_user.generate_confirmation_token()
     send_email(current_user.email, 'Confirm your account',
             'confirm', user=current_user, token=token)
-    flash('A new confirmation email has been sent!', 'card-panel green lighten-2')
+    flash('A new confirmation email has been sent!',
+          'card-panel green lighten-2')
     return redirect(url_for('main.timeline'))
 
 
@@ -121,11 +127,14 @@ def changepassword():
     form = ChangePasswordForm()
     if form.validate_on_submit():
         if not current_user.check_password(form.old_password.data):
-            flash('Could not verify password', 'card-panel red lighten-2')
+            flash('Could not verify password',
+                  'card-panel red lighten-2')
             return redirect(url_for('main.account'))
-        current_user.password_hash = generate_password_hash(form.new_password.data)
+        current_user.password_hash = generate_password_hash(
+            form.new_password.data)
         db.session.commit()
-        flash('Password changed!', 'card-panel green lighten-2')
+        flash('Password changed!',
+              'card-panel green lighten-2')
         return redirect(url_for('main.account'))
     return render_template(
         'changepass.html',
@@ -137,9 +146,11 @@ def changepassword():
 def changeemail():
     form = ChangeEmailForm()
     if form.validate_on_submit():
-        existing_email = User.query.filter_by(email=form.email.data).first()
+        existing_email = User.query.filter_by(
+            email=form.email.data).first()
         if existing_email:
-            flash('Email is already in use', 'card-panel red lighten-2')
+            flash('Email is already in use',
+                  'card-panel red lighten-2')
             return redirect(url_for('.changeemail'))
         current_user.email = form.email.data
         db.session.commit()
@@ -154,15 +165,21 @@ def changeemail():
 def resetrequest():
     form = RequestResetForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data.lower()).first()
+        user = User.query.filter_by(
+            email=form.email.data.lower()).first()
         if user:
-            # Need to create this page for password resets
-            send_email(user.email, 'tester', 'resetemailrequest', )
+            token = user.generate_reset_token()
+            send_email(form.email.data, 'Password Reset',
+                       'resetemailrequest', user=user,
+                       token=token)
             flash('Email sent! Please follow the link provided '
-            'in the email to reset your password', 'card-panel green lighten-2')
+                  'in the email to reset your password.',
+                  'card-panel green lighten-2')
             return redirect(url_for('.login'))
         else:
-            flash('Email not found. Please try another email, or register an account.', 'card-panel red lighten-2')
+            flash('Email not found. Please try another email, \
+                   or register an account.',
+                  'card-panel red lighten-2')
             form.email.data = ''
     return render_template(
         'resetrequest.html',
@@ -170,11 +187,19 @@ def resetrequest():
         )
 
 
-@auth.route('/resetpass', methods=['GET','POST'])
-def resetpass():
+@auth.route('/reset/<token>', methods=['GET','POST'])
+def resetpass(token):
+    if not current_user.is_anonymous:
+        return redirect(url_for('main.timeline'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
-        pass
+        if User.reset_password(token,
+                form.new_password.data):
+            flash('Your password has been updated.',
+                  'card-panel green lighten-2')
+            return redirect(url_for('auth.login'))
+        else:
+            return redirect(url_for('main.timeline'))
     return render_template(
         'resetpassword.html',
         form=form)

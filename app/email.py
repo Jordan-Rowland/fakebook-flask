@@ -1,12 +1,12 @@
-""" 
-	Need to re-think this, 
-    because it is creating 
-    a new app instance to 
+"""
+	Need to re-think this,
+    because it is creating
+    a new app instance to
     send the email.
 
-    The below, commented 
+    The below, commented
     out version might work.
-    I think I was messing 
+    I think I was messing
     up with the arguments.
 """
 
@@ -44,7 +44,7 @@ def send_email(to, subject, template, **kwargs):
 
 
 # def send_async_email(app, msg):
-#     with app.app_context():
+#     with current_app.app_context():
 #         mail.send(msg)
 
 
