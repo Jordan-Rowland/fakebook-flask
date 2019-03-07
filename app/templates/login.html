@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block content %}
 
@@ -10,13 +11,12 @@
 <section class="section">
       <form method="POST">
         {{ form.hidden_tag() }}
-        {{ form.email.label(class="black-text") }}{{ form.email }}
-        {{ form.password.label(class="black-text") }}{{ form.password }}
+        {{ render_field(form.email) }}
+        {{ render_field(form.password) }}
     <div class="right-align">
-
         {{ form.submit(class="btn blue") }}
     </div>
-
+    {# This needs the materialize tags to work #}
         {{ form.remember(class="browser-default") }}
         </form>
         </div>

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block content %}
 <div class="col l8">
@@ -7,7 +8,14 @@
 <section class="section">
     <form method="POST">
       {{ form.hidden_tag() }}
-      {{ form.old_password.label(class="black-text") }}{{ form.old_password }}
+
+        {{ render_field(form.old_password) }}
+        {{ render_field(form.new_password) }}
+        {{ render_field(form.confirm_new_password) }}
+
+
+
+     <!--  {{ form.old_password.label(class="black-text") }}{{ form.old_password }}
 {% if form.old_password.data %}
   {% if not current_user.check_password(form.old_password.data) %}
   <p class="red-text">Could not verify password</p>
@@ -16,18 +24,21 @@
       {{ form.new_password.label(class="black-text") }}{{ form.new_password }}
   {% if form.new_password.errors %}
   {% for error in form.new_password.errors %}
-    <span class="red-text">{{ error }}</span>
+    <span class="form-error red-text">{{ error }}</span>
   {% endfor %}
   {% endif %}
       <p>
-      {{ form.confirm_new_password.label(class="black-text") }}{{ form.confirm_new_password }}  
+{{ form.confirm_new_password.label(class="black-text") }}{{ form.confirm_new_password }}
       </p>
   {% if form.confirm_new_password.errors %}
   {% for error in form.confirm_new_password.errors %}
-    <span class="red-text">{{ error }}</span>
+    <span class="form-error red-text">{{ error }}</span>
   {% endfor %}
-  {% endif %}
-      {{ form.submit(class="btn blue right") }}
+  {% endif %} -->
+        <div class="right-align">
+
+      {{ form.submit(class="btn blue") }}
+        </div>
     </form>
 </section>
 </section>

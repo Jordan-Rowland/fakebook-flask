@@ -18,8 +18,8 @@ class RegisterForm(FlaskForm):
             DataRequired(),
             Length(1,64),
             Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
-                message='Usernames much start with a letter, and contain only'
-                'letters, numbers, dots, or underscores')])
+                message='Usernames much start with a letter and contain '
+                'only letters, numbers, dots, or underscores')])
     password = PasswordField(
         'Choose your Password',
         validators=[

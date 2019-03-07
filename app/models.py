@@ -201,9 +201,9 @@ class Post(db.Model):
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
 
-    # def __init__(self, content, user_id):
-    #     self.content = content
-    #     self.user_id = user_id
+    def __init__(self, content, user_id):
+        self.content = content
+        self.user_id = user_id
 
 
     def __repr__(self):
