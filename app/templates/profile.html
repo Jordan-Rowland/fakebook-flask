@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block content %}
 <div class="col l8">
@@ -66,9 +67,9 @@
     <h5 class="center">(( Admin only ))</h5>
       <form method="post">
         {{ form.hidden_tag() }}
-        {{ form.email.label(class="black-text") }}{{ form.email }}
-        {{ form.username.label(class="black-text") }}{{ form.username }}
-        {{ form.location.label(class="black-text") }}{{ form.location }}
+    {{ render_field(form.email) }}
+    {{ render_field(form.username) }}
+    {{ render_field(form.location) }}
         <div class="input-field">
         {{ form.about.label(class="black-text ") }}{{ form.about(class="materialize-textarea") }}
       </div>

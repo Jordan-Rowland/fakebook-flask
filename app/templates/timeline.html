@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% import "_macros.html" as macros %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block content %}
 
@@ -10,7 +11,9 @@
 <section class="section">
   <form method="post">
           {{ form.hidden_tag() }}
-          {{ form.post_content.label() }}{{ form.post_content }}
+
+    {{ render_field(form.post_content) }}
+
           <div class="right-align">
           {{ form.submit(class="btn blue") }}
           </div>

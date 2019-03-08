@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% import "_macros.html" as macros %}
+
 
 {% block content %}
 <div class="col l8">
@@ -7,13 +9,19 @@
     <div class="row">
       {% for user in users %}
         {% if user.confirmed or current_user.is_admin %}
-          
+
         {# {% if user.id in following %} #}
           <div class="col s12 l4">
             <div class="card-panel">
               <div class="center">
                 <a href="{{ url_for('main.profile', username=user.username)}}">
                 <img class="circle" width="75px" src="{{ url_for('static', filename='img/' + user.photo) }}" alt="">
+                        {% if current_user.is_following(user) and user != current_user %}
+    <div class="right-align">
+
+  <span class="user-page-follow new badge green" data-badge-caption="F"></span>
+    </div>
+                        {% endif %}
                 <p>{{ user.username }}</p></a>
                 {{ user.location }}
               </div>
@@ -25,6 +33,9 @@
       {% endfor %}
     </div>
 </section>
+  <div class="pagination">
+    {{ macros.pagination_widget(pagination, '.users') }}
+  </div>
 </div>
 </div>
 {% endblock %}

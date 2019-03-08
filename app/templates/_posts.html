@@ -13,7 +13,7 @@
           <br>
           <div class="divider"></div>
           <p class="center">{{ post.content }}</p>
-<p class="right-align">{{ moment(post.timestamp, local=True).format('LLLL') }}({{ moment(post.timestamp, local=True).fromNow() }})</p>
+<p class="right-align">{{ moment(post.timestamp).format('LLLL') }}({{ moment(post.timestamp).fromNow() }})</p>
           {% if current_user.is_admin %}
             <a href="{{ url_for('.deletepost', post_id=post.id, page=page) }}">Delete Post</a>
           {% endif %}

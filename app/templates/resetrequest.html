@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block content %}
 
@@ -10,7 +11,9 @@
 <section class="section">
     <form action="" method="post">
     {{ form.hidden_tag() }}
-    {{ form.email.label(class="black-text") }}{{ form.email }}
+
+    {{ render_field(form.email) }}
+
     <div class="right-align">
     {{ form.submit(class="btn blue") }}
     </div>

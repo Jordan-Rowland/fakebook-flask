@@ -227,7 +227,7 @@ class Post(db.Model):
         content = json_post.get('content')
         if content is None or content == '':
             raise ValidationError('post does not have any content')
-        return Post(content=content)
+        return Post(content=content, user_id=self.id)
 
 
 class Comment(db.Model):

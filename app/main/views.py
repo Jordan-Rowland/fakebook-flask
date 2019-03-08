@@ -45,9 +45,7 @@ def timeline():
         'timeline.html',
         form=form,
         posts=posts,
-        db=db,
-        pagination=pagination,
-        page=page)
+        pagination=pagination)
 
 
 @main.route('/show_all')
@@ -69,10 +67,18 @@ def show_followed():
 @main.route('/users')
 @login_required
 def users():
-    users = User.query.all()
+    query = User.query
+
+    page = request.args.get('page', 1, type=int)
+    pagination = query.order_by(User.id).paginate(
+        page, per_page=12,
+        error_out=False)
+    users = pagination.items
+
     return render_template(
         'users.html',
-        users=users)
+        users=users,
+        pagination=pagination,)
 
 
 @main.route('/profile/<username>', methods=['GET', 'POST'])
