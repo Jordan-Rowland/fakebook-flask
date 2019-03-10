@@ -23,6 +23,7 @@ def index():
 
 @main.route('/timeline', methods=['GET', 'POST'])
 def timeline():
+    flash('Test flash', 'card-panel yellow lighten-2 s12')
     show_followed = False
     if current_user.is_authenticated:
         show_followed = bool(request.cookies.get('show_followed', ''))

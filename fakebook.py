@@ -1,7 +1,17 @@
 import os
+import sys
+import click
+
 from app import create_dev_app, create_test_app, create_prod_app, db
 from app.models import User, Post
 from flask_migrate import Migrate
+
+COV = None
+if os.environ.get('FLASK_COVERAGE'):
+    import coverage
+    COV = coverage.coverage(branch=True, include='app/*')
+    COV.start()
+
 
 app = create_dev_app()
 migrate = Migrate(app, db)

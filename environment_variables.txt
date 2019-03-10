@@ -14,6 +14,7 @@ cd ~/'Coding Projects'/fakebook-flask/
 export FLASK_APP=fakebook.py
 export FLASK_DEBUG=1
 export FLASK_CONFIG='default'
+export FLASK_COVERAGE=''
 export MAIL_PASSWORD='##SECRET PASSWORD##'
 
 
@@ -31,4 +32,5 @@ export SQLALCHEMY_DATABASE_URI='sqlite:///~/fakebook-flask/data-dev.sqlite'
 export FLASK_APP=fakebook.py
 export FLASK_DEBUG=1
 export FLASK_CONFIG='default'
+export FLASK_COVERAGE=''
 export MAIL_PASSWORD=''

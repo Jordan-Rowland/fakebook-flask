@@ -43,3 +43,9 @@ body {
   position: relative;
   margin-left: 100px;
 }
+
+.sml-profile {
+  /*position: relative;*/
+  margin: 5px 10px;
+
+}
