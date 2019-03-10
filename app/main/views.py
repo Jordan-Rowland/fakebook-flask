@@ -23,7 +23,7 @@ def index():
 
 @main.route('/timeline', methods=['GET', 'POST'])
 def timeline():
-    flash('Test flash', 'card-panel yellow lighten-2 s12')
+    # flash('Test flash', 'card-panel yellow lighten-2 s12')
     show_followed = False
     if current_user.is_authenticated:
         show_followed = bool(request.cookies.get('show_followed', ''))
@@ -155,6 +155,7 @@ def account():
     return render_template(
         'account.html',
         form=form,
+        page=page,
         photo_form=photo_form,
         posts=posts,
         pagination=pagination,)
@@ -210,30 +211,30 @@ def deletepost(post_id):
     previous_page = request.args.get('page', 1, type=int)
     if post is None:
         flash('Invalid post.', 'card-panel red lighten-2 s12')
-        return redirect(url_for('.timeline', page=previous_page))
-
-    db.session.delete(post)
+        return redirect(request.referrer)
+    
+    post.deleted = True
+    db.session.add(post)
     db.session.commit()
     flash(f'Post has been deleted.', 'card-panel blue lighten-2 s12')
-    return redirect(url_for('.timeline', page=previous_page))
+    return redirect(request.referrer)
+
 
 
 @main.route('/deletecomment/<comment_id>')
 @login_required
-def deletecomment(comment_id, post_id):
+def deletecomment(comment_id):
     comment = Comment.query.filter_by(id=comment_id).first()
     previous_page = request.args.get('page', 1, type=int)
     post = request.args.get('post')
     if comment is None:
         flash('Invalid comment.', 'card-panel red lighten-2 s12')
-        return redirect(url_for('.post', page=previous_page))
+        return redirect(request.referrer)
 
     db.session.delete(comment)
     db.session.commit()
     flash(f'Comment has been deleted.', 'card-panel blue lighten-2 s12')
-    return redirect(url_for('.timeline', page=previous_page))
-    # Need to find out how to add comment ID to this route.
-    # return redirect(url_for('.post', page=previous_page, post_id=post_id))
+    return redirect(request.referrer)
 
 
 @main.route('/post/<int:post_id>', methods=['GET', 'POST'])
@@ -248,7 +249,9 @@ def post(post_id):
         db.session.add(comment)
         db.session.commit()
         flash('Comment posted!', 'card-panel green lighten-2 s12')
-        return redirect(url_for('.post', post_id=post.id, page=-1))
+        return redirect(request.referrer)
+        
+        # return redirect(url_for('.post', post_id=post.id, page=-1))
 
     page = request.args.get('page', 1, type=int)
     if page == -1:

@@ -1,27 +1,27 @@
 <section class="section">
       {% for post in posts %}
+          {% if not post.deleted %}
         <div class="card-panel grey lighten-4 hoverable post-content">
           <span class="post-profile">
           <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + post.user.photo) }}">
           <a href="{{ url_for('.profile', username=post.user.username) }}">
           <span class="post-username">{{ post.user.username }}</span>
           </a>
-          {% if current_user.is_authenticated %}
-        {% if current_user.is_following(post.user) and post.user != current_user %}
-  <span class="new badge green" data-badge-caption="Followed"></span>
-        {% endif %}
-          {% endif %}
+              {% if current_user.is_authenticated and current_user.is_following(post.user) and post.user != current_user %}
+        <span class="new badge green" data-badge-caption="Followed"></span>
+              {% endif %}
         </span>
           <br>
-          <div class="divider"></div>
+    <div class="divider"></div>
           <p class="center">{{ post.content }}</p>
 <p class="right-align">{{ moment(post.timestamp).format('LLLL') }}({{ moment(post.timestamp).fromNow() }})</p>
-          {% if current_user.is_admin %}
-            <a href="{{ url_for('.deletepost', post_id=post.id, page=page) }}">Delete Post</a>
-          {% endif %}
-          <div class="right-align">
-            <a  href="{{ url_for('.post', post_id=post.id) }}">{{ post.comments.count() }} comments</a>
-          </div>
+                {% if current_user.is_admin %}
+                  <a href="{{ url_for('.deletepost', post_id=post.id, page=page) }}">Delete Post</a>
+                {% endif %}
+              <div class="right-align">
+                <a  href="{{ url_for('.post', post_id=post.id) }}">{{ post.comments.count() }} comments</a>
+              </div>
         </div>
+          {% endif %}
       {% endfor %}
 </section>

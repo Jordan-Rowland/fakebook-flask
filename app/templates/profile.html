@@ -6,7 +6,9 @@
 <div class="col l8">
 <div class="card-panel light-blue lighten-4">
 <section class="section">
-  <div class="card-panel grey lighten-2">
+  {% include '_account_info.html' %}
+  
+  {# <div class="card-panel grey lighten-2">
     <div class="row">
   <img class="circle col l4" width="200px" src="{{ url_for('static', filename='img/' + user.photo) }}" alt="">
   <div class="col l8">
@@ -60,7 +62,7 @@
   </div>
 
   </div>
-    </div>
+    </div> #}
     {# ADMIN PANAL #}
     {% if current_user.is_admin %}
 

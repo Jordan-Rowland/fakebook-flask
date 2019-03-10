@@ -55,7 +55,7 @@
 {% if current_user.is_authenticated %}
   <div class="col l4 center">
     <div class="card-panel grey lighten-4 hide-on-med-and-down">
-      <img class="circle responsive-img" src="{{ url_for('static', filename='img/' + current_user.photo) }}">
+      <img class="circle responsive-img profile-photo" src="{{ url_for('static', filename='img/' + current_user.photo) }}">
       <div class="divider"></div>
       <p class="center">{{ current_user.username }}</p>
       <div class="divider"></div>
@@ -66,6 +66,7 @@
       <p class="center">{{ current_user.location }}</p>
       <div class="divider"></div>
       <p class="center">Last Seen: {{ moment(current_user.last_seen).format('LL') }}</p>
+      <div class="divider"></div>
       <div class="divider"></div>
       <p class="center">Posts: {{ current_user.posts|length }}</p>
       <div class="divider"></div>

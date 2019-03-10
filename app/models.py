@@ -199,6 +199,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now)
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
+    deleted = db.Column(db.Boolean(), default=False)
 
 
     def __init__(self, content, user_id):
@@ -228,6 +229,14 @@ class Post(db.Model):
         if content is None or content == '':
             raise ValidationError('post does not have any content')
         return Post(content=content, user_id=self.id)
+
+
+    @staticmethod
+    def add_delete():
+        for post in Post.query.all():
+            post.deleted = False
+            db.session.add(post)
+            db.session.commit()
 
 
 class Comment(db.Model):
