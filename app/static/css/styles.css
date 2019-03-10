@@ -1,0 +1,45 @@
+body {
+  background-color: lightgrey;
+}
+
+.brand-logo {
+  margin-left: 20px;
+}
+
+#nav-mobile {
+  margin-right: 20px;
+}
+
+.post-photo {
+  margin: -10px;
+}
+
+.post-username {
+  position: absolute;
+  margin: 3px 10px;
+}
+
+.post-profile {
+  margin-left: -10px;
+  top: -20px;
+}
+
+.form-error{
+  font-size: .8em;
+}
+
+.user-page-follow {
+  position: absolute;
+  margin-top: -122px;
+  position: relative;
+  margin-right: -25px;
+}
+
+.flash-close-x {
+  color: black;
+}
+
+.small-profile {
+  position: relative;
+  margin-left: 100px;
+}

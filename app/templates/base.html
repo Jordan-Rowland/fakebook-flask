@@ -8,45 +8,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 <!--Let browser know website is optimized for mobile-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<style type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
 
-  body {
-    background-color: lightgrey;
-  }
-
-  .brand-logo {
-    margin-left: 20px;
-  }
-
-  #nav-mobile {
-    margin-right: 20px;
-  }
-
-  .post-photo {
-    margin: -10px;
-  }
-
-  .post-username {
-    position: absolute;
-    margin: 3px 10px;
-  }
-
-  .post-profile {
-    margin-left: -10px;
-    top: -20px;
-  }
-
-  .form-error{
-    font-size: .8em;
-  }
-
-  .user-page-follow {
-    position: absolute;
-    margin-top: -122px;
-    position: relative;
-    margin-right: -25px;
-  }
-</style>
     {{ moment.include_jquery() }}
     {{ moment.include_moment() }}
     {{ moment.locale('us') }}
@@ -74,16 +37,22 @@
 <section class="section">
 <div class="container">
 <div class="row">
+{% if get_flashed_messages %}
+<div class="col s12">
 {% for category, message in get_flashed_messages(with_categories=True) %}
-  <div class="{{ category }}">
-  {{ message }}
+  <div class="{{ category }} flash-msg">
+  {{ message }} <span class="close-flash right"><a class="flash-close-x" href="javascript:void(0)">
+    X
+  </a></span>
   </div>
 {% endfor %}
+</div>
+{% endif %}
 
 {% if current_user.is_authenticated %}
   <div class="col l4 center">
-    <div class="card-panel grey lighten-4">
-      <img class="circle" src="{{ url_for('static', filename='img/' + current_user.photo) }}">
+    <div class="card-panel grey lighten-4 hide-on-med-and-down">
+      <img class="circle responsive-img" src="{{ url_for('static', filename='img/' + current_user.photo) }}">
       <div class="divider"></div>
       <p class="center">{{ current_user.username }}</p>
       <div class="divider"></div>
@@ -97,10 +66,37 @@
       <div class="divider"></div>
       <p class="center">Posts: {{ current_user.posts|length }}</p>
       <div class="divider"></div>
-
     </div>
-{% endif %}
   </div>
+  <div class="col s12 hide-on-large-only">
+    <div class="card-panel grey lighten-4">
+      <div class="row">
+      <div class="valign-wrapper">
+      <div class="col s3">
+        <img class="circle" width="80px" src="{{ url_for('static', filename='img/' + current_user.photo) }}">
+      </div>
+          <div class="col s3">
+          <h5>
+            {{ current_user.username }}
+          </h5>
+          </div>
+          <div class="col s3">
+          <h5>
+          {{ current_user.location }}
+          </h5>
+          </div>
+          {% if current_user.is_admin %}
+          <div class="col s3">
+          <h5>
+            Admin
+          </h5>
+          </div>
+          {% endif %}
+      </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
 
 
 {% block content %}
@@ -110,6 +106,9 @@
 </div>
 <!--JavaScript at end of body for optimized loading-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script type="text/javascript"
+  src="{{ url_for('static', filename='js/app.js') }}"
+  ></script>
 </body>
 </html>
 

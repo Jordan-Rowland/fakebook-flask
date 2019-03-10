@@ -159,7 +159,6 @@ def account():
         pagination=pagination,)
 
 
-
 @main.route('/updateprofile', methods=['GET','POST'])
 @login_required
 def updateprofile():

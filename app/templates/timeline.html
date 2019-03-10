@@ -23,8 +23,8 @@
   {% endif %}
 {# POSTS #}
 {% if current_user.is_authenticated %}
-  <a class="btn blue" href="{{ url_for('.show_all') }}">All</a>
-  <a class="btn blue" href="{{ url_for('.show_followed') }}">Followed</a>
+  <a class="btn-small blue waves-effect waves-light" href="{{ url_for('.show_all') }}">All</a>
+  <a class="btn-small blue waves-effect waves-light" href="{{ url_for('.show_followed') }}">Followed</a>
 {% endif %}
   {% include '_posts.html' %}
   <div class="pagination">
