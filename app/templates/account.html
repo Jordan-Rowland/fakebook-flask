@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% from "_formhelpers.html" import render_field %}
+{% import "_macros.html" as macros %}
+
 
 {% block content %}
 <div class="col l8">
@@ -17,19 +19,10 @@
         </form>
       </section>
         <section class="section">
-      {% for post in posts %}
-        <div class="card-panel grey lighten-4 hoverable">
- <span class="post-profile">
-          <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + post.user.photo) }}">
-          <span class="post-username">{{ post.user.username }}</span>
-        </span>
-          <br>
-          <div class="divider"></div>
-          <p class="center">{{ post.content }}</p>
-        <p class="right-align post-timestamp">{{ moment(post.timestamp, local=True).format('LLLL') }}({{ moment(post.timestamp, local=True).fromNow() }})</p>
-
-        </div>
-      {% endfor %}
+  {% include '_posts.html' %}
+  <div class="pagination">
+    {{ macros.pagination_widget(pagination, '.account') }}
+  </div>
 </section>
 <div class="card-panel grey lighten-2">
 <p><a href="{{ url_for('auth.changepassword') }}">Change your password</a></p>

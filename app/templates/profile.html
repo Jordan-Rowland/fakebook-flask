@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% from "_formhelpers.html" import render_field %}
+{% import "_macros.html" as macros %}
 
 {% block content %}
 <div class="col l8">
@@ -98,6 +99,9 @@
     {# POSTS #}
   {% if posts %}
   {% include '_posts.html' %}
+    <div class="pagination">
+    {{ macros.pagination_widget(pagination, '.profile', username=user.username) }}
+  </div>
       {% else %}
       <section class="section">
       <h5>This user has no posts!</h5>

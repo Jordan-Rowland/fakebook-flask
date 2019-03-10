@@ -86,7 +86,15 @@ def users():
 def profile(username):
     form = AdminEditUser()
     user = User.query.filter_by(username=username).first_or_404()
-    posts = Post.query.filter_by(user_id=user.id).order_by(Post.timestamp.desc()).all()
+
+
+    query = Post.query.filter_by(user_id=user.id)
+    page = request.args.get('page', 1, type=int)
+    pagination = query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=10,
+        error_out=False)
+    posts = pagination.items
+
     if form.validate_on_submit():
         user.email = form.email.data
         user.username = form.username.data
@@ -108,7 +116,8 @@ def profile(username):
         'profile.html',
         user=user,
         posts=posts,
-        form=form)
+        form=form,
+        pagination=pagination,)
 
 
 @main.route('/account', methods=['GET','POST'])
@@ -116,7 +125,14 @@ def profile(username):
 def account():
     form = PostForm()
     photo_form = ChangePhotoForm()
-    posts = Post.query.filter_by(user_id=current_user.id).order_by(Post.timestamp.desc()).all()
+
+    query = Post.query.filter_by(user_id=current_user.id)
+    page = request.args.get('page', 1, type=int)
+    pagination = query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=10,
+        error_out=False)
+    posts = pagination.items
+
     if form.validate_on_submit() and form.post_content.data:
         post = Post(form.post_content.data, user_id=current_user.id)
         db.session.add(post)
@@ -139,7 +155,9 @@ def account():
         'account.html',
         form=form,
         photo_form=photo_form,
-        posts=posts,)
+        posts=posts,
+        pagination=pagination,)
+
 
 
 @main.route('/updateprofile', methods=['GET','POST'])
