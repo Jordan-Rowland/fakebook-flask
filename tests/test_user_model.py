@@ -4,7 +4,7 @@ import time
 
 
 class UserModelTestCase(unittest.TestCase):
-	
+
 	def test_password(self):
 		u = User(password='cat')
 		self.assertTrue(u.password_hash is not None)

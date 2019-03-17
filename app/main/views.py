@@ -203,7 +203,7 @@ def unfollow(username):
     flash(f'You are no longer following {username}.', 'card-panel blue lighten-2 s12')
     return redirect(url_for('.profile', username=username))
 
-### Need to account for deleting posts from profile...
+
 @main.route('/deletepost/<post_id>')
 @login_required
 def deletepost(post_id):
@@ -212,7 +212,7 @@ def deletepost(post_id):
     if post is None:
         flash('Invalid post.', 'card-panel red lighten-2 s12')
         return redirect(request.referrer)
-    
+
     post.deleted = True
     db.session.add(post)
     db.session.commit()
@@ -250,8 +250,6 @@ def post(post_id):
         db.session.commit()
         flash('Comment posted!', 'card-panel green lighten-2 s12')
         return redirect(request.referrer)
-        
-        # return redirect(url_for('.post', post_id=post.id, page=-1))
 
     page = request.args.get('page', 1, type=int)
     if page == -1:
