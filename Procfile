@@ -1,1 +1,1 @@
-web: gunicorn fakebook: app
+web: gunicorn fakebook:app
