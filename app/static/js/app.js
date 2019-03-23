@@ -7,3 +7,6 @@ if (flash_close) {
     });
 }
 
+
+let sideNav = document.querySelector('.sidenav');
+M.Sidenav.init(sideNav, {});

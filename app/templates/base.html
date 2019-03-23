@@ -24,7 +24,7 @@
     {% endif %}
     <a href="{{ url_for('main.timeline') }}" class="brand-logo">
       <i class="medium material-icons">message</i><strong>FakeBook</strong></a>
-    <ul id="nav-mobile" class="right hide-on-med-and-down">
+    <ul class="right hide-on-med-and-down">
       {% if current_user.is_authenticated %}
       <li><a href="{{ url_for('main.timeline') }}">Timeline</a></li>
       <li><a href="{{ url_for('main.account') }}">Account</a></li>
@@ -34,8 +34,25 @@
       <li><a href="{{ url_for('auth.login') }}">Login</a></li>
       {% endif %}
     </ul>
+    <div class="right">
+      
+<a href="#" data-target="mobile-nav" class="sidenav-trigger">
+  <i class="material-icons">menu</i>
+    </div>
+</a>
   </div>
 </nav>
+
+<ul class="sidenav" id="mobile-nav">
+      {% if current_user.is_authenticated %}
+      <li><a href="{{ url_for('main.timeline') }}">Timeline</a></li>
+      <li><a href="{{ url_for('main.account') }}">Account</a></li>
+      <li><a href="{{ url_for('main.users') }}">Users</a></li>
+      <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+      {% else %}
+      <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+      {% endif %}
+</ul>
 
 <section class="section">
 <div class="container">
