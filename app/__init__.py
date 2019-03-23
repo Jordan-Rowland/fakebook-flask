@@ -66,6 +66,10 @@ def create_prod_app():
     app.config.from_object(config['production'])
     config['production'].init_app(app)
 
+    if app.config['SSL_REDIRECT']:
+        from flask_sslify import SSLify
+        sslify = SSLify(app)
+
     mail.init_app(app)
     moment.init_app(app)
     db.init_app(app)

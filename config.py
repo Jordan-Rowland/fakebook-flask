@@ -16,6 +16,7 @@ class Config:
     FAKEBOOK_POSTS_PER_PAGE = 10
     FAKEBOOK_COMMENTS_PER_PAGE = 10
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SSL_REDIRECT = False
 
     @staticmethod
     def init_app(app):
@@ -42,6 +43,20 @@ class ProductionConfig(Config):
         ## CAUSED THE BIG TIME SCREW UP WHERE I COULD NOT GET
         ## THE APP WORKING FOR AN ENTIRE DAY!!
 
+
+class HerokuConfig(ProductionConfig):
+    @classmethod
+    def init_app(cls, app):
+        ProductionConfig.init_app(app)
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app)
+
+        import logging
+        from logging import StreamHandler
+        file_handler = StreamHandler()
+        file_handler.setLevel(logging.INFO)
+        app.logger.add_Handler(file_handler)
+        SSL_REDIRECT = True if os.environ.get('DYNO') else False
 
 config = {
     'development': DevelopmentConfig,
