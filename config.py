@@ -38,7 +38,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        f'sqlite:///{os.path.join(basedir, "data-prod.sqlite")}'
+        f'sqlite:///{os.path.join(basedir, "data.sqlite")}'
         ## THIS MIGHT NEED TO BE EDITED, BECAUSE THIS IS WHAT
         ## CAUSED THE BIG TIME SCREW UP WHERE I COULD NOT GET
         ## THE APP WORKING FOR AN ENTIRE DAY!!
