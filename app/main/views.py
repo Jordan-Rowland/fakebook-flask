@@ -6,6 +6,7 @@ from flask import (current_app, flash, render_template,
                    redirect, request, url_for,
                    make_response)
 from flask_login import login_required, current_user
+from sqlalchemy import exc
 
 from . import main
 from .. import db
@@ -103,9 +104,13 @@ def profile(username):
         user.about_me = form.about.data
         user.confirmed = form.confirmed.data
         user.is_admin = form.admin.data
-        db.session.add(user)
-        db.session.commit()
-        flash('User updated', 'card-panel yellow lighten-2 s12')
+        try:
+            db.session.add(user)
+            db.session.commit()
+            flash('User updated', 'card-panel yellow lighten-2 s12')
+        except:
+            db.session.rollback()
+            flash('User not updated - Email already exists', 'card-panel red lighten-2 s12')
         return redirect(url_for('.profile', username=user.username))
     form.email.data = user.email
     form.username.data = user.username
