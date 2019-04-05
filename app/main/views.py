@@ -98,7 +98,7 @@ def profile(username):
     posts = pagination.items
 
     if form.validate_on_submit():
-        user.email = form.email.data
+        user.email = form.email.data.lower()
         user.username = form.username.data
         user.location = form.location.data
         user.about_me = form.about.data
