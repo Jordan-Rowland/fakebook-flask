@@ -57,6 +57,7 @@ class User(db.Model, UserMixin):
         self.password_hash = generate_password_hash(password)
 
 
+    # For adding fake data
     # def __init__(self, email, username,
     #         location, password, confirmed,
     #         about_me, member_since):
@@ -205,6 +206,12 @@ class Post(db.Model):
     def __init__(self, content, user_id):
         self.content = content
         self.user_id = user_id
+
+    # For adding fake data
+    # def __init__(self, content, user_id, timestamp):
+    #     self.content = content
+    #     self.user_id = user_id
+    #     self.timestamp = timestamp
 
 
     def __repr__(self):
