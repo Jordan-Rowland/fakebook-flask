@@ -50,6 +50,8 @@ def comments(count=100):
 		db.session.add(c)
 	db.session.commit()
 
-# users()
-# posts()
-# comments()
+users()
+posts()
+comments()
+
+Post.query.all()
