@@ -37,11 +37,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or \
-        f'sqlite:///{os.path.join(basedir, "data.sqlite")}'
-        ## THIS MIGHT NEED TO BE EDITED, BECAUSE THIS IS WHAT
-        ## CAUSED THE BIG TIME SCREW UP WHERE I COULD NOT GET
-        ## THE APP WORKING FOR AN ENTIRE DAY!!
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
 
 
 class HerokuConfig(ProductionConfig):
