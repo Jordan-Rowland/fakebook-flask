@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: ce54423b1ba6
+Revision ID: fc6affb7bb4e
 Revises: 
-Create Date: 2019-08-06 21:10:54.704720
+Create Date: 2019-08-06 21:39:02.238224
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ce54423b1ba6'
+revision = 'fc6affb7bb4e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -44,7 +44,7 @@ def upgrade():
     )
     op.create_table('posts',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('content', sa.Text(length=500), nullable=False),
+    sa.Column('content', sa.Text(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('timestamp', sa.DateTime(), nullable=False),
     sa.Column('deleted', sa.Boolean(), nullable=True),
@@ -54,7 +54,7 @@ def upgrade():
     op.create_index(op.f('ix_posts_content'), 'posts', ['content'], unique=False)
     op.create_table('comments',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('content', sa.Text(length=500), nullable=True),
+    sa.Column('content', sa.Text(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=False),
     sa.Column('disabled', sa.Boolean(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=False),
