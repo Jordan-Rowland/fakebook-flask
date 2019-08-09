@@ -49,25 +49,25 @@ class User(db.Model, UserMixin):
         cascade='all, delete-orphan')
 
 
-    def __init__(self, email, username,
-            location, password):
-        self.email = email.lower()
-        self.username = username
-        self.location = location
-        self.password_hash = generate_password_hash(password)
-
-
-    # For adding fake data
     # def __init__(self, email, username,
-    #         location, password, confirmed,
-    #         about_me, member_since):
+    #         location, password):
     #     self.email = email.lower()
     #     self.username = username
     #     self.location = location
-    #     self.confirmed = confirmed
-    #     self.about_me = about_me
-    #     self.member_since = member_since
     #     self.password_hash = generate_password_hash(password)
+
+
+    # For adding fake data
+    def __init__(self, email, username,
+            location, password, confirmed,
+            about_me, member_since):
+        self.email = email.lower()
+        self.username = username
+        self.location = location
+        self.confirmed = confirmed
+        self.about_me = about_me
+        self.member_since = member_since
+        self.password_hash = generate_password_hash(password)
 
 
     def __repr__(self):
@@ -203,15 +203,15 @@ class Post(db.Model):
     deleted = db.Column(db.Boolean(), default=False)
 
 
-    def __init__(self, content, user_id):
-        self.content = content
-        self.user_id = user_id
-
-    # For adding fake data
-    # def __init__(self, content, user_id, timestamp):
+    # def __init__(self, content, user_id):
     #     self.content = content
     #     self.user_id = user_id
-    #     self.timestamp = timestamp
+
+    # For adding fake data
+    def __init__(self, content, user_id, timestamp):
+        self.content = content
+        self.user_id = user_id
+        self.timestamp = timestamp
 
 
     def __repr__(self):
