@@ -46,7 +46,7 @@ def register():
                     username=form.username.data,
                     password=form.password.data,
                     location=form.location.data)
-        User.add_self_follows()
+        user.follow(user)
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()

@@ -5,6 +5,10 @@ from app import db
 from app.models import User, Post, Comment
 
 me = User.query.all()[-1]
+me.confirmed = True
+db.session.commit()
+
+
 
 
 def users(count=50):
