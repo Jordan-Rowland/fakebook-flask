@@ -11,6 +11,9 @@ export FLASK_APP=fakebook.py
 export FLASK_DEBUG=1
 export FLASK_CONFIG='default'
 export FLASK_COVERAGE=''
+export SQLALCHEMY_DATABASE_URI='postgres://pbknkidmklvanz:2bcfd0af6891f083ae767eda88214ede09ad8d38eca0aaaad5bb36e2ea19eb81@ec2-54-235-96-48.compute-1.amazonaws.com:5432/dcvo7hu5ehahao'
+
+
 export MAIL_PASSWORD='##SECRET PASSWORD##'
 
 

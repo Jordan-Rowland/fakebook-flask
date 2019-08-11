@@ -220,6 +220,8 @@ class Post(db.Model):
 
     def to_json(self):
         json_post = {
+            "id": self.id,
+            "user_id": self.user_id,
             "url": url_for('api.get_post', id=self.id),
             "content": self.content,
             "timestamp": self.timestamp,
@@ -235,7 +237,7 @@ class Post(db.Model):
         content = json_post.get('content')
         if content is None or content == '':
             raise ValidationError('post does not have any content')
-        return Post(content=content, user_id=self.id)
+        return Post(content=content, user_id=id)
 
 
     @staticmethod

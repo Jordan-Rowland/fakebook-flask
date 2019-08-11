@@ -11,7 +11,7 @@ from ..models import Post
 @api.route('/posts/')
 def get_posts():
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.paginate(
+    pagination = Post.query.order_by(Post.id.desc()).paginate(
         page, per_page=10, error_out=False)
     posts = pagination.items
     prev = None
