@@ -3,7 +3,9 @@
      <div class="card-panel grey lighten-4 hoverable post-content">
           <span class="post-profile">
           <img class="circle post-photo" width="50px" src="{{ url_for('static', filename='img/' + comment.user.photo) }}">
+          <a href="{{ url_for('.profile', username=comment.user.username) }}">
           <span class="post-username">{{ comment.user.username }}</span>
+          </a>
           {% if current_user.is_authenticated %}
         {% if current_user.is_following(comment.user) and comment.user != current_user %}
   <span class="new badge green" data-badge-caption="Followed"></span>
